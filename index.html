@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Journey 33 — Year in Highlights · SRT 33 · 2025–26</title>
+<style>
+  :root{
+    --navy:#0a1533; --navy2:#12245a; --gold:#f4b41a; --gold-soft:#ffd873;
+    --pink:#ff4f8b; --cream:#fdf6e9; --ink:#0a1533;
+    --slide-secs:6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#000;font-family:"Poppins","Segoe UI",system-ui,-apple-system,sans-serif;color:var(--cream);overflow:hidden}
+  /* ---- stage: fixed 16:9 letterboxed ---- */
+  #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000}
+  #deck{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;
+        background:var(--navy);overflow:hidden;box-shadow:0 0 80px rgba(0,0,0,.6)}
+  .slide{position:absolute;inset:0;opacity:0;visibility:hidden;
+         transition:opacity .55s ease, transform .55s ease;transform:scale(1.02);
+         display:flex;flex-direction:column}
+  .slide.active{opacity:1;visibility:visible;transform:scale(1);z-index:2}
+  /* background wash */
+  .slide::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(120% 120% at 80% 0%, var(--navy2), var(--navy) 60%);z-index:0}
+  .wrap{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;padding:4.2% 5%}
+  /* ---- typography ---- */
+  .kicker{font-size:1.35vw;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);
+          font-weight:600;display:flex;align-items:center;gap:1vw}
+  .kicker .dot{width:.7vw;height:.7vw;border-radius:50%;background:var(--pink)}
+  h1{font-size:5.6vw;line-height:1.02;font-weight:800;letter-spacing:-.01em}
+  h2{font-size:3.6vw;line-height:1.04;font-weight:800;margin:.4vw 0 .2vw}
+  .sub{font-size:1.65vw;color:#cdd6f0;font-weight:400;max-width:78%}
+  .gold{color:var(--gold)} .pink{color:var(--pink)}
+  /* photo helpers with slow ken-burns */
+  .ph{position:relative;overflow:hidden;border-radius:1.1vw;background:#06102b}
+  .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .slide.active .ph img{animation:kb 7s ease-out forwards}
+  @keyframes kb{from{transform:scale(1.14)}to{transform:scale(1)}}
+  .cap{position:absolute;left:0;right:0;bottom:0;padding:1.6vw 1.2vw .9vw;
+       font-size:1.15vw;font-weight:600;color:#fff;
+       background:linear-gradient(to top, rgba(4,10,28,.92), transparent);z-index:2}
+  .frame{border:.28vw solid rgba(244,180,26,.35)}
+  /* grids */
+  .grid{display:grid;gap:1.1vw;flex:1;min-height:0;margin-top:1.6vw}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g6{grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr}
+  /* ---- slide 1 title ---- */
+  #s1 .wrap{align-items:center;justify-content:center;text-align:center}
+  .logo-lockup{display:flex;flex-direction:column;align-items:center;gap:.4vw}
+  #logoImg{max-width:44vw;max-height:34vh;display:none}
+  .wordmark{font-size:11vw;font-weight:800;line-height:.9;letter-spacing:-.02em;
+    background:linear-gradient(180deg,#fff 0%, var(--gold-soft) 55%, var(--gold) 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    font-style:italic;text-shadow:0 4px 30px rgba(244,180,26,.15)}
+  .wordmark small{display:block;font-style:normal;font-size:2.2vw;letter-spacing:.5em;
+    -webkit-text-fill-color:var(--cream);margin-top:.6vw;font-weight:500;padding-left:.5em}
+  .title-meta{margin-top:2.4vw;font-size:1.7vw;color:#cdd6f0;letter-spacing:.08em}
+  .title-meta b{color:var(--gold)}
+  .rule{width:16vw;height:.28vw;background:linear-gradient(90deg,transparent,var(--pink),transparent);margin:2vw auto 0}
+  /* ---- stat tiles ---- */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vw;flex:1;margin-top:2vw}
+  .stat{background:linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+        border:1px solid rgba(244,180,26,.25);border-radius:1.1vw;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1vw}
+  .stat .num{font-size:4.4vw;font-weight:800;color:var(--gold);line-height:1}
+  .stat .lbl{font-size:1.2vw;color:#dbe3f7;margin-top:.5vw;font-weight:500}
+  .stat.pinky{border-color:rgba(255,79,139,.45)} .stat.pinky .num{color:var(--pink)}
+  /* pickle slide */
+  .pip-badge{display:inline-flex;align-items:center;gap:.6vw;background:rgba(255,79,139,.16);
+    border:1px solid var(--pink);color:#ffd0e2;padding:.5vw 1.1vw;border-radius:100px;
+    font-size:1.15vw;font-weight:600;margin-top:1vw;width:max-content}
+  .chips{display:flex;flex-wrap:wrap;gap:.7vw;margin-top:1.2vw}
+  .chip{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+    border-radius:100px;padding:.45vw 1.1vw;font-size:1.05vw;font-weight:500}
+  .chip b{color:var(--gold)}
+  /* induction placeholder */
+  .placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    background:repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 12px,rgba(255,255,255,.06) 12px 24px);
+    border:.18vw dashed rgba(244,180,26,.5);border-radius:1.1vw;gap:.6vw;padding:1vw}
+  .placeholder .ph-ico{font-size:3.2vw;opacity:.8}
+  .placeholder .ph-t{font-size:1.9vw;font-weight:800;color:var(--gold)}
+  .placeholder .ph-s{font-size:1vw;color:#c3cef0;line-height:1.5}
+  .placeholder code{background:rgba(0,0,0,.35);padding:.15vw .5vw;border-radius:.4vw;color:var(--gold-soft);font-size:.9vw}
+  /* two-col layout */
+  .split{display:grid;grid-template-columns:1.05fr 1fr;gap:1.6vw;flex:1;min-height:0;margin-top:1.4vw}
+  .split .left{display:flex;flex-direction:column;justify-content:center}
+  .stack{display:grid;grid-template-rows:1fr 1fr;gap:1.1vw}
+  /* closing */
+  #s10 .wrap{justify-content:flex-end}
+  #s10 .ph{position:absolute;inset:0;border-radius:0}
+  #s10 .endcard{position:relative;z-index:4;text-align:center;align-self:center;margin-bottom:2vw}
+  #s10 .endcard h2{font-size:5vw}
+  /* ---- chrome ---- */
+  #bar{position:fixed;top:0;left:0;height:4px;background:var(--pink);width:0;z-index:50;transition:width .2s linear}
+  #ui{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:50;
+      background:rgba(6,12,30,.72);border:1px solid rgba(255,255,255,.14);padding:8px 12px;border-radius:100px;
+      backdrop-filter:blur(8px);font-size:13px;align-items:center;opacity:.5;transition:opacity .25s}
+  #ui:hover{opacity:1}
+  #ui button{background:var(--gold);color:#0a1533;border:none;border-radius:100px;padding:7px 16px;font-weight:700;cursor:pointer;font-size:13px}
+  #ui button.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)}
+  #ui .idx{color:#cdd6f0;min-width:44px;text-align:center}
+  .hint{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:50;color:#9fb0d8;font-size:12px;letter-spacing:.05em;opacity:.7}
+  @media(max-width:640px){.sub{max-width:100%}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="stage"><div id="deck">
+
+  <!-- 1 · TITLE / LOGO -->
+  <section class="slide active" id="s1">
+    <div class="wrap">
+      <div class="logo-lockup">
+        <img id="logoImg" src="assets/journey-logo.png" alt="Journey logo">
+        <div class="wordmark" id="wordmark">Journey<small>SRT 33</small></div>
+      </div>
+      <div class="title-meta">Round Table India · <b>Standard Round Table 33</b></div>
+      <div class="title-meta" style="font-size:1.3vw;letter-spacing:.3em;margin-top:.6vw">A YEAR IN HIGHLIGHTS · 2025–26</div>
+      <div class="rule"></div>
+    </div>
+  </section>
+
+  <!-- 2 · THE YEAR -->
+  <section class="slide" id="s2">
+    <div class="ph" style="position:absolute;inset:0;border-radius:0">
+      <img src="assets/opening.jpg" alt="">
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(6,12,30,.9) 30%, rgba(6,12,30,.25))"></div>
+    </div>
+    <div class="wrap" style="justify-content:center;position:relative;z-index:4;max-width:62%">
+      <div class="kicker"><span class="dot"></span>The Year</div>
+      <h1>A Year of<br><span class="gold">Fellowship, Freedom</span><br>&amp; Service.</h1>
+      <p class="sub" style="margin-top:1.4vw">From flag-hosting to fundraisers, courts to community — the story of SRT 33's most memorable year yet.</p>
+    </div>
+  </section>
+
+  <!-- 3 · INDEPENDENCE DAY -->
+  <section class="slide" id="s3">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>15 August · Independence Day</div>
+      <h2>Saluting the Flag,<br>Fuelling Young Dreams <span class="gold">🇮🇳</span></h2>
+      <p class="sub">Flag hosting at ZPHS Malkajgiri — followed by <b class="gold">stationery kits for 425 students</b> on Independence Day.</p>
+      <div class="grid g2">
+        <div class="ph frame"><img src="assets/indep_1.jpg" alt=""><div class="cap">Tricolour unfurled with rose petals at the school assembly</div></div>
+        <div class="ph frame"><img src="assets/indep_2.jpg" alt=""><div class="cap">Distributing stationery kits to every student</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · RTI WEEK -->
+  <section class="slide" id="s4">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>November · RTI Week</div>
+      <h2>Freedom Through <span class="gold">Community Service</span></h2>
+      <p class="sub">A week of seva — cinema for 300 kids, a drawing carnival, tree-planting, blood donation &amp; sight restored.</p>
+      <div class="grid g6">
+        <div class="ph"><img src="assets/rti_movie.jpg" alt=""><div class="cap">🎬 300 kids to the movies at Cinépolis</div></div>
+        <div class="ph"><img src="assets/rti_taare1.jpg" alt=""><div class="cap">🎨 Taare Zameen Pe — a drawing carnival</div></div>
+        <div class="ph"><img src="assets/rti_eye.jpg" alt=""><div class="cap">👁️ Cataract surgery for rural patients</div></div>
+        <div class="ph"><img src="assets/rti_taare2.jpg" alt=""><div class="cap">🎁 Prizes &amp; gifts for every child</div></div>
+        <div class="ph"><img src="assets/rti_gogreen.jpg" alt=""><div class="cap">🌳 Go Green — planting for the planet</div></div>
+        <div class="ph"><img src="assets/rti_blood.jpg" alt=""><div class="cap">🩸 Blood donation drive</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · PICKLE IN PINK -->
+  <section class="slide" id="s5">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>25 January · Flagship Fundraiser</div>
+      <h2><span class="pink">Pickle in Pink</span> · Season 2</h2>
+      <div class="pip-badge">💗 Cancer-Awareness Pickleball Tournament · Hosted by SRT 33</div>
+      <div class="split">
+        <div class="ph frame"><img src="assets/pip_trophy.jpg" alt=""><div class="cap">Champions crowned on court at Cross Courts</div></div>
+        <div class="stack">
+          <div class="ph"><img src="assets/pip_felicitation.jpg" alt=""><div class="cap">Felicitating our winners</div></div>
+          <div class="ph"><img src="assets/pip_festival.jpg" alt=""><div class="cap">Players, families &amp; the whole 33 gang</div></div>
+        </div>
+      </div>
+      <div class="chips">
+        <div class="chip"><b>₹1 Lakh</b> prize pot</div>
+        <div class="chip">Celebrity players</div>
+        <div class="chip">Family day out · food &amp; stalls</div>
+        <div class="chip">Bigger &amp; better than Season 1</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · FELLOWSHIPS -->
+  <section class="slide" id="s6">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>Play Hard</div>
+      <h2>Fellowships &amp; the <span class="gold">Great Outdoors</span></h2>
+      <p class="sub">Nature walks, tournaments and paddle battles — friendship, one game at a time.</p>
+      <div class="grid g2" style="grid-template-columns:repeat(4,1fr);grid-template-rows:1fr">
+        <div class="ph"><img src="assets/fel_peacock.jpg" alt=""><div class="cap">KBR nature walk 🦚</div></div>
+        <div class="ph"><img src="assets/fel_badminton.jpg" alt=""><div class="cap">Area Badminton</div></div>
+        <div class="ph"><img src="assets/fel_snooker.jpg" alt=""><div class="cap">Snooker night</div></div>
+        <div class="ph"><img src="assets/fel_pickle.jpg" alt=""><div class="cap">Pickle &amp; Paddle</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · SOCIALS -->
+  <section class="slide" id="s7">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>Celebrate Together</div>
+      <h2>Socials, Festivals &amp; <span class="gold">Full-On Fun</span></h2>
+      <p class="sub">Dandiya twirls, Diwali sparkle, Secret Santa at Babylon 2, and cheering India to victory.</p>
+      <div class="grid" style="grid-template-columns:repeat(4,1fr);grid-template-rows:1fr">
+        <div class="ph"><img src="assets/soc_dandiya.jpg" alt=""><div class="cap">Dandiya Night</div></div>
+        <div class="ph"><img src="assets/soc_diwali.jpg" alt=""><div class="cap">Diwali celebrations</div></div>
+        <div class="ph"><img src="assets/soc_babylon.jpg" alt=""><div class="cap">Secret Santa · Babylon 2</div></div>
+        <div class="ph"><img src="assets/soc_indiapak.jpg" alt=""><div class="cap">India vs Pakistan 🏏</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · GROWING THE FAMILY -->
+  <section class="slide" id="s8">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>Growing Together</div>
+      <h2>Welcoming New <span class="gold">33 Family</span></h2>
+      <p class="sub">The table grew stronger — two wonderful couples joined the SRT 33 family this year. 🍻</p>
+      <div class="grid g2" style="margin-top:1.4vw">
+        <div class="ph frame"><img src="assets/induct_anish.jpg" alt=""><div class="cap">🤝 Welcoming Anish &amp; Surbhi</div></div>
+        <div class="ph frame" id="anukulCard">
+          <img src="assets/induct_anukul.jpg" alt="" id="anukulImg" style="display:none">
+          <div class="placeholder" id="anukulPh">
+            <div class="ph-ico">🖼️</div>
+            <div class="ph-t">Anukul &amp; Jagrati</div>
+            <div class="ph-s">photo coming soon — drop it at<br><code>assets/induct_anukul.jpg</code></div>
+          </div>
+          <div class="cap" id="anukulCap" style="display:none">🤝 Welcoming Anukul &amp; Jagrati</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · BY THE NUMBERS -->
+  <section class="slide" id="s9">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>The Year in Numbers</div>
+      <h2>What a <span class="gold">Journey</span> Looks Like</h2>
+      <div class="stats">
+        <div class="stat"><div class="num">19+</div><div class="lbl">Fellowships &amp; Socials</div></div>
+        <div class="stat"><div class="num">₹50k+</div><div class="lbl">Given in Community Service</div></div>
+        <div class="stat"><div class="num">700+</div><div class="lbl">Lives Touched</div></div>
+        <div class="stat"><div class="num">300</div><div class="lbl">Kids at the Movies</div></div>
+        <div class="stat pinky"><div class="num">₹1 Lakh</div><div class="lbl">Pickle in Pink Prize Pot</div></div>
+        <div class="stat"><div class="num">2</div><div class="lbl">New Couples Inducted</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · CLOSING -->
+  <section class="slide" id="s10">
+    <div class="ph">
+      <img src="assets/closing.jpg" alt="">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(6,12,30,.95) 8%, rgba(6,12,30,.15) 60%)"></div>
+    </div>
+    <div class="wrap">
+      <div class="endcard">
+        <div class="kicker" style="justify-content:center">Cheers to the Journey</div>
+        <h2>Here's to SRT 33 <span class="gold">🥂</span></h2>
+        <p class="sub" style="max-width:100%;text-align:center;margin:0 auto">A beautiful journey of service, sport &amp; friendship. 2025–26.</p>
+      </div>
+    </div>
+  </section>
+
+</div></div>
+
+<div class="hint" id="hint">Press <b>P</b> to play the 60-second cut · ← → to navigate</div>
+<div id="ui">
+  <button class="ghost" onclick="go(-1)">‹</button>
+  <span class="idx"><span id="cur">1</span>/10</span>
+  <button class="ghost" onclick="go(1)">›</button>
+  <button id="playBtn" onclick="togglePlay()">▶ Play 60s</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const N=slides.length, SECS=6; // 10 x 6s = 60s
+  let i=0, playing=false, timer=null, barAnim=null;
+  const bar=document.getElementById('bar');
+
+  function show(n){
+    slides[i].classList.remove('active');
+    i=(n+N)%N;
+    slides[i].classList.add('active');
+    document.getElementById('cur').textContent=i+1;
+    if(playing) runBar();
+  }
+  function go(d){ stop(); show(i+d); }
+
+  function runBar(){
+    bar.style.transition='none'; bar.style.width='0';
+    void bar.offsetWidth;
+    bar.style.transition='width '+SECS+'s linear'; bar.style.width='100%';
+  }
+  function play(){
+    playing=true; document.getElementById('playBtn').textContent='❚❚ Pause';
+    document.getElementById('hint').style.display='none';
+    runBar();
+    timer=setInterval(()=>{ if(i===N-1){stop();return;} show(i+1); }, SECS*1000);
+  }
+  function stop(){
+    playing=false; clearInterval(timer);
+    document.getElementById('playBtn').textContent='▶ Play 60s';
+    bar.style.transition='none'; bar.style.width='0';
+  }
+  function togglePlay(){ playing?stop():(i===N-1&&show(0),play()); }
+  function restartPlay(){ show(0); play(); }
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight')go(1);
+    else if(e.key==='ArrowLeft')go(-1);
+    else if(e.key.toLowerCase()==='p'){ e.preventDefault(); playing?stop():restartPlay(); }
+    else if(e.key==='f'){ document.documentElement.requestFullscreen?.(); }
+  });
+  document.getElementById('deck').addEventListener('click',e=>{
+    if(e.target.closest('#ui'))return;
+    const r=document.getElementById('deck').getBoundingClientRect();
+    go(e.clientX < r.left+r.width/2 ? -1 : 1);
+  });
+
+  // swap in real logo if present
+  const li=document.getElementById('logoImg');
+  li.onload=()=>{ li.style.display='block'; document.getElementById('wordmark').style.display='none'; };
+
+  // reveal Anukul & Jagrati photo once it's dropped into assets/
+  const ai=document.getElementById('anukulImg');
+  ai.onload=()=>{ ai.style.display='block';
+    document.getElementById('anukulPh').style.display='none';
+    document.getElementById('anukulCap').style.display='block'; };
+</script>
+</body>
+</html>
