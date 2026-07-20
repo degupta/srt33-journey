@@ -347,7 +347,7 @@ function setStagger(sl){
   const acc=[...sl.querySelectorAll('.wi:not(.lite)')];   // accent words first
   const lite=[...sl.querySelectorAll('.wi.lite')];         // white words fade in after
   acc.forEach((w,k)=>w.style.transitionDelay=(0.15+k*0.08)+'s');
-  const start=0.15+acc.length*0.08+0.15;
+  const start=0.15+acc.length*0.08+0.05;
   lite.forEach((w,k)=>w.style.transitionDelay=(start+k*0.06)+'s');
   sl.querySelectorAll('.ph,.stat,.chip').forEach((p,k)=>p.style.transitionDelay=(0.3+k*0.11)+'s');
 }
