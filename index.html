@@ -3,381 +3,441 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Journey 33 — Year in Highlights · SRT 33 · 2025–26</title>
+<title>Journey 33 — The Ride · SRT 33 · 2025–26</title>
 <style>
   :root{
-    --navy:#0a1533; --navy2:#12245a; --gold:#f4b41a; --gold-soft:#ffd873;
-    --pink:#ff4f8b; --cream:#fdf6e9; --ink:#0a1533;
-    --slide-secs:6;
+    --ink:#070c22; --cream:#fdf6e9; --muted:#aeb8da;
+    --gold:#f4b41a; --gold-soft:#ffd873; --pink:#ff4f8b; --red:#ff3b3b;
+    --accent:var(--gold);
+    --c1:#12245a; --c2:#3b1d6e; --c3:#0a1230;   /* aurora blobs, morph per slide */
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;background:#000;font-family:"Poppins","Segoe UI",system-ui,-apple-system,sans-serif;color:var(--cream);overflow:hidden}
-  /* ---- stage: fixed 16:9 letterboxed ---- */
+  html,body{height:100%;background:#000;overflow:hidden;
+    font-family:"Poppins","Segoe UI",system-ui,-apple-system,sans-serif;color:var(--cream)}
+  /* ---------- stage: 16:9 letterbox ---------- */
   #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000}
   #deck{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;
-        background:var(--navy);overflow:hidden;box-shadow:0 0 80px rgba(0,0,0,.6)}
-  .slide{position:absolute;inset:0;opacity:0;visibility:hidden;
-         transition:opacity .55s ease, transform .55s ease;transform:scale(1.02);
-         display:flex;flex-direction:column}
-  .slide.active{opacity:1;visibility:visible;transform:scale(1);z-index:2}
-  /* background wash */
-  .slide::before{content:"";position:absolute;inset:0;
-    background:radial-gradient(120% 120% at 80% 0%, var(--navy2), var(--navy) 60%);z-index:0}
-  .wrap{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;padding:4.2% 5%}
-  /* ---- typography ---- */
-  .kicker{font-size:1.35vw;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);
-          font-weight:600;display:flex;align-items:center;gap:1vw}
-  .kicker .dot{width:.7vw;height:.7vw;border-radius:50%;background:var(--pink)}
-  h1{font-size:5.6vw;line-height:1.02;font-weight:800;letter-spacing:-.01em}
-  h2{font-size:3.6vw;line-height:1.04;font-weight:800;margin:.4vw 0 .2vw}
-  .sub{font-size:1.65vw;color:#cdd6f0;font-weight:400;max-width:78%}
+        overflow:hidden;background:var(--ink);perspective:1600px}
+  /* ---------- animated aurora background ---------- */
+  #aurora{position:absolute;inset:-20%;z-index:0;filter:blur(70px) saturate(1.25);opacity:.9}
+  .blob{position:absolute;border-radius:50%;mix-blend-mode:screen;transition:background 1.1s ease}
+  .b1{width:55%;height:70%;left:-8%;top:-12%;background:var(--c1);animation:drift1 20s ease-in-out infinite}
+  .b2{width:60%;height:75%;right:-10%;top:10%;background:var(--c2);animation:drift2 24s ease-in-out infinite}
+  .b3{width:50%;height:65%;left:25%;bottom:-20%;background:var(--c3);animation:drift3 18s ease-in-out infinite}
+  @keyframes drift1{50%{transform:translate(12%,10%) scale(1.15)}}
+  @keyframes drift2{50%{transform:translate(-10%,8%) scale(1.1)}}
+  @keyframes drift3{50%{transform:translate(8%,-10%) scale(1.2)}}
+  #grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.06;
+    background-image:radial-gradient(circle at 1px 1px,#fff 1px,transparent 0);background-size:3px 3px}
+  #fx{position:absolute;inset:0;z-index:6;pointer-events:none}   /* confetti canvas */
+  /* ---------- slides ---------- */
+  .slide{position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;
+    transform:scale(1.08) translateZ(-120px);filter:blur(8px);
+    transition:opacity .65s ease,transform .8s cubic-bezier(.16,.84,.3,1),filter .65s ease}
+  .slide.active{opacity:1;visibility:visible;transform:none;filter:none;z-index:4}
+  .slide.leaving{opacity:0;transform:scale(.92) translateZ(-260px);filter:blur(10px);z-index:3}
+  .wrap{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;justify-content:center;padding:4.4% 5.4%}
+  /* light sweep on entry */
+  .slide::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;
+    background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.16) 50%,transparent 60%);
+    transform:translateX(-120%);}
+  .slide.active::after{animation:sweep 1.1s ease-out .15s}
+  @keyframes sweep{to{transform:translateX(120%)}}
+  /* ---------- typography ---------- */
+  .kicker{font-size:1.25vw;letter-spacing:.4em;text-transform:uppercase;font-weight:600;color:var(--accent);
+    display:flex;align-items:center;gap:.9vw;margin-bottom:1.1vw}
+  .kicker .dot{width:.7vw;height:.7vw;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);
+    animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.5);opacity:.6}}
+  h2{font-size:4.4vw;line-height:1.0;font-weight:800;letter-spacing:-.015em;text-wrap:balance;margin-bottom:.7vw}
+  .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .12em .12em 0}
+  .wi{display:inline-block;transform:translateY(118%) rotate(6deg);opacity:0;
+    transition:transform .75s cubic-bezier(.16,.9,.28,1),opacity .6s}
+  .slide.active .wi{transform:none;opacity:1}
+  em{font-style:normal;color:var(--accent);
+    text-shadow:0 0 34px color-mix(in srgb,var(--accent) 55%,transparent)}
+  .sub{font-size:1.55vw;color:#dbe3fb;font-weight:400;max-width:80%;line-height:1.5;
+    opacity:0;transform:translateY(14px);transition:all .7s ease .35s}
+  .slide.active .sub{opacity:1;transform:none}
   .gold{color:var(--gold)} .pink{color:var(--pink)}
-  /* photo helpers with slow ken-burns */
-  .ph{position:relative;overflow:hidden;border-radius:1.1vw;background:#06102b}
-  .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .slide.active .ph img{animation:kb 15s ease-out forwards}
-  @keyframes kb{from{transform:scale(1.12)}to{transform:scale(1)}}
-  @media (prefers-reduced-motion:reduce){.slide.active .ph img{animation:none}}
-  .cap{position:absolute;left:0;right:0;bottom:0;padding:1.6vw 1.2vw .9vw;
-       font-size:1.15vw;font-weight:600;color:#fff;
-       background:linear-gradient(to top, rgba(4,10,28,.92), transparent);z-index:2}
-  .frame{border:.28vw solid rgba(244,180,26,.35)}
-  /* grids */
-  .grid{display:grid;gap:1.1vw;flex:1;min-height:0;margin-top:1.6vw}
+  /* ---------- photo tiles ---------- */
+  .grid{display:grid;gap:1.1vw;flex:1;min-height:0;margin-top:1.5vw}
   .g2{grid-template-columns:1fr 1fr}
   .g3{grid-template-columns:repeat(3,1fr)}
-  .g6{grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr}
-  /* ---- slide 1 title ---- */
-  #s1 .wrap{align-items:center;justify-content:center;text-align:center}
-  .logo-lockup{display:flex;flex-direction:column;align-items:center;gap:.4vw}
-  #logoImg{max-width:52vw;max-height:62vh;display:none;filter:drop-shadow(0 14px 40px rgba(0,0,0,.45))}
-  .wordmark{font-size:11vw;font-weight:800;line-height:.9;letter-spacing:-.02em;
-    background:linear-gradient(180deg,#fff 0%, var(--gold-soft) 55%, var(--gold) 100%);
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    font-style:italic;text-shadow:0 4px 30px rgba(244,180,26,.15)}
-  .wordmark small{display:block;font-style:normal;font-size:2.2vw;letter-spacing:.5em;
-    -webkit-text-fill-color:var(--cream);margin-top:.6vw;font-weight:500;padding-left:.5em}
-  .title-meta{margin-top:2.4vw;font-size:1.7vw;color:#cdd6f0;letter-spacing:.08em}
-  .title-meta b{color:var(--gold)}
-  .rule{width:16vw;height:.28vw;background:linear-gradient(90deg,transparent,var(--pink),transparent);margin:2vw auto 0}
-  /* ---- stat tiles ---- */
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vw;flex:1;margin-top:2vw}
-  .stat{background:linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-        border:1px solid rgba(244,180,26,.25);border-radius:1.1vw;
-        display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1vw}
-  .stat .num{font-size:4.4vw;font-weight:800;color:var(--gold);line-height:1}
-  .stat .lbl{font-size:1.2vw;color:#dbe3f7;margin-top:.5vw;font-weight:500}
-  .stat.pinky{border-color:rgba(255,79,139,.45)} .stat.pinky .num{color:var(--pink)}
-  /* pickle slide */
-  .pip-badge{display:inline-flex;align-items:center;gap:.6vw;background:rgba(255,79,139,.16);
-    border:1px solid var(--pink);color:#ffd0e2;padding:.5vw 1.1vw;border-radius:100px;
-    font-size:1.15vw;font-weight:600;margin-top:1vw;width:max-content}
-  .chips{display:flex;flex-wrap:wrap;gap:.7vw;margin-top:1.2vw}
-  .chip{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
-    border-radius:100px;padding:.45vw 1.1vw;font-size:1.05vw;font-weight:500}
-  .chip b{color:var(--gold)}
-  /* induction placeholder */
-  .placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-    background:repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 12px,rgba(255,255,255,.06) 12px 24px);
-    border:.18vw dashed rgba(244,180,26,.5);border-radius:1.1vw;gap:.6vw;padding:1vw}
-  .placeholder .ph-ico{font-size:3.2vw;opacity:.8}
-  .placeholder .ph-t{font-size:1.9vw;font-weight:800;color:var(--gold)}
-  .placeholder .ph-s{font-size:1vw;color:#c3cef0;line-height:1.5}
-  .placeholder code{background:rgba(0,0,0,.35);padding:.15vw .5vw;border-radius:.4vw;color:var(--gold-soft);font-size:.9vw}
-  /* two-col layout */
-  .split{display:grid;grid-template-columns:1.05fr 1fr;gap:1.6vw;flex:1;min-height:0;margin-top:1.4vw}
-  .split .left{display:flex;flex-direction:column;justify-content:center}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .ph{position:relative;overflow:hidden;border-radius:1vw;background:#06102b;
+    box-shadow:0 18px 50px rgba(0,0,0,.5);
+    opacity:0;transform:translateY(46px) scale(.94);
+    transition:transform .85s cubic-bezier(.16,.9,.28,1),opacity .7s,box-shadow .4s}
+  .slide.active .ph{opacity:1;transform:none}
+  .ph::before{content:"";position:absolute;inset:0;z-index:2;border-radius:inherit;pointer-events:none;
+    box-shadow:inset 0 0 0 .16vw color-mix(in srgb,var(--accent) 55%,transparent),
+               inset 0 0 40px rgba(0,0,0,.35)}
+  .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transform:scale(1.12);transition:transform 8s ease-out}
+  .slide.active .ph img{transform:scale(1)}
+  .cap{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:1.5vw 1.1vw .85vw;
+    font-size:1.05vw;font-weight:600;color:#fff;
+    background:linear-gradient(to top,rgba(4,8,24,.94),transparent)}
+  .split{display:grid;grid-template-columns:1.15fr 1fr;gap:1.4vw;flex:1;min-height:0;margin-top:1.4vw}
   .stack{display:grid;grid-template-rows:1fr 1fr;gap:1.1vw}
-  /* closing */
-  #s10 .wrap{justify-content:flex-end}
-  #s10 .ph{position:absolute;inset:0;border-radius:0}
-  #s10 .endcard{position:relative;z-index:4;text-align:center;align-self:center;margin-bottom:2vw}
-  #s10 .endcard h2{font-size:5vw}
-  /* ---- chrome ---- */
-  #bar{position:fixed;top:0;left:0;height:4px;background:var(--pink);width:0;z-index:50;transition:width .2s linear}
-  #ui{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:50;
-      background:rgba(6,12,30,.72);border:1px solid rgba(255,255,255,.14);padding:8px 12px;border-radius:100px;
-      backdrop-filter:blur(8px);font-size:13px;align-items:center;opacity:.5;transition:opacity .25s}
+  /* ---------- title slide ---------- */
+  .title-wrap{align-items:center;text-align:center;justify-content:center}
+  #logoImg{max-width:50vw;max-height:60vh;filter:drop-shadow(0 20px 50px rgba(0,0,0,.55));
+    opacity:0;transform:scale(.6) translateY(30px)}
+  .slide.active #logoImg{animation:logoPop 1.1s cubic-bezier(.2,1.5,.4,1) .2s forwards}
+  @keyframes logoPop{60%{transform:scale(1.06) translateY(0)}100%{opacity:1;transform:scale(1) translateY(0)}}
+  .tagline{margin-top:1.8vw;font-size:1.4vw;letter-spacing:.36em;text-transform:uppercase;color:var(--gold-soft);font-weight:600;
+    opacity:0;transform:translateY(16px)}
+  .slide.active .tagline{animation:fadeUp .8s ease 1s forwards}
+  .rule{width:0;height:.26vw;background:linear-gradient(90deg,transparent,var(--pink),var(--gold),transparent);margin:1.6vw auto 0}
+  .slide.active .rule{animation:grow .9s ease 1.15s forwards}
+  @keyframes fadeUp{to{opacity:1;transform:none}}
+  @keyframes grow{to{width:26vw}}
+  /* coaster track drawing behind logo */
+  #trackSvg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.5}
+  #trackPath{fill:none;stroke:url(#tg);stroke-width:3;stroke-linecap:round;
+    stroke-dasharray:2600;stroke-dashoffset:2600}
+  .slide.active #trackPath{animation:draw 2.4s ease-out .1s forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  /* ---------- stat tiles ---------- */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3vw;flex:1;margin-top:1.6vw}
+  .stat{position:relative;border-radius:1.1vw;padding:1vw;overflow:hidden;
+    background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.02));
+    border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    opacity:0;transform:translateY(40px) scale(.9);
+    transition:transform .8s cubic-bezier(.16,.9,.28,1),opacity .6s}
+  .slide.active .stat{opacity:1;transform:none}
+  .stat .num{font-size:4.6vw;font-weight:800;color:var(--accent);line-height:1;
+    font-variant-numeric:tabular-nums;text-shadow:0 0 30px color-mix(in srgb,var(--accent) 45%,transparent)}
+  .stat .lbl{font-size:1.15vw;color:#e4eaff;margin-top:.5vw;font-weight:500}
+  /* chips / badge */
+  .pip-badge{display:inline-flex;align-items:center;gap:.6vw;background:rgba(255,79,139,.18);
+    border:1px solid var(--pink);color:#ffd6e6;padding:.5vw 1.2vw;border-radius:100px;
+    font-size:1.1vw;font-weight:600;width:max-content;margin-bottom:.4vw;
+    opacity:0;transform:translateY(12px);transition:all .6s ease .3s}
+  .slide.active .pip-badge{opacity:1;transform:none}
+  .chips{display:flex;flex-wrap:wrap;gap:.7vw;margin-top:1.1vw}
+  .chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:100px;
+    padding:.45vw 1.1vw;font-size:1.02vw;font-weight:500;
+    opacity:0;transform:translateY(14px) scale(.9);transition:all .5s cubic-bezier(.16,.9,.28,1)}
+  .slide.active .chip{opacity:1;transform:none}
+  .chip b{color:var(--accent)}
+  /* couples / placeholder */
+  .placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;gap:.6vw;padding:1vw;z-index:2;
+    background:repeating-linear-gradient(135deg,rgba(255,255,255,.04) 0 12px,rgba(255,255,255,.08) 12px 24px);
+    border:.16vw dashed color-mix(in srgb,var(--accent) 60%,transparent);border-radius:1vw}
+  .placeholder .ph-ico{font-size:3vw;opacity:.85} .placeholder .ph-t{font-size:1.8vw;font-weight:800;color:var(--accent)}
+  .placeholder .ph-s{font-size:.95vw;color:#c7d2f5;line-height:1.5}
+  .placeholder code{background:rgba(0,0,0,.4);padding:.15vw .5vw;border-radius:.4vw;color:var(--gold-soft);font-size:.85vw}
+  /* closing full-bleed */
+  #cl .bg{position:absolute;inset:0;z-index:0}
+  #cl .bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.14);transition:transform 12s ease-out}
+  #cl.active .bg img{transform:scale(1)}
+  #cl .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,12,34,.96) 12%,rgba(7,12,34,.2) 65%)}
+  #cl .wrap{justify-content:flex-end;text-align:center;align-items:center}
+  #cl h2{font-size:5.2vw}
+  /* ---------- chrome: coaster progress ---------- */
+  #track{position:fixed;left:6%;right:6%;bottom:26px;height:3px;z-index:40;
+    background:rgba(255,255,255,.16);border-radius:3px}
+  #fill{position:absolute;left:0;top:0;height:100%;width:0;border-radius:3px;
+    background:linear-gradient(90deg,var(--pink),var(--gold));transition:width .35s linear}
+  #car{position:absolute;top:50%;transform:translate(-50%,-60%);font-size:22px;transition:left .35s linear;filter:drop-shadow(0 3px 4px rgba(0,0,0,.5))}
+  #ui{position:fixed;bottom:44px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:41;align-items:center;
+    background:rgba(6,10,28,.66);border:1px solid rgba(255,255,255,.14);padding:8px 12px;border-radius:100px;
+    backdrop-filter:blur(10px);font-size:13px;opacity:.35;transition:opacity .25s}
   #ui:hover{opacity:1}
-  #ui button{background:var(--gold);color:#0a1533;border:none;border-radius:100px;padding:7px 16px;font-weight:700;cursor:pointer;font-size:13px}
+  #ui button{background:var(--gold);color:#0a1230;border:none;border-radius:100px;padding:7px 16px;font-weight:700;cursor:pointer;font-size:13px}
   #ui button.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)}
-  #ui .idx{color:#cdd6f0;min-width:44px;text-align:center}
-  .hint{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:50;color:#9fb0d8;font-size:12px;letter-spacing:.05em;opacity:.7}
-  @media(max-width:640px){.sub{max-width:100%}}
+  #ui .idx{color:#cdd6f0;min-width:46px;text-align:center;font-variant-numeric:tabular-nums}
+  .hint{position:fixed;bottom:78px;left:50%;transform:translateX(-50%);z-index:41;color:#9fb0d8;font-size:12px;letter-spacing:.05em;opacity:.7}
+  @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-<div id="bar"></div>
 <div id="stage"><div id="deck">
-
-  <!-- 1 · TITLE / LOGO -->
-  <section class="slide active" id="s1" data-secs="10">
-    <div class="wrap">
-      <div class="logo-lockup">
-        <img id="logoImg" src="assets/journey-logo.png" alt="Journey 33 logo">
-        <div class="wordmark" id="wordmark">Journey<small>SRT 33</small></div>
-      </div>
-      <div class="title-meta" style="font-size:1.35vw;letter-spacing:.34em;margin-top:1.6vw">A YEAR IN HIGHLIGHTS · SECUNDERABAD ROUND TABLE 33</div>
-      <div class="rule"></div>
-    </div>
-  </section>
-
-  <!-- 2 · THE YEAR -->
-  <section class="slide" id="s2" data-secs="11">
-    <div class="ph" style="position:absolute;inset:0;border-radius:0">
-      <img src="assets/opening.jpg" alt="">
-      <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(6,12,30,.9) 30%, rgba(6,12,30,.25))"></div>
-    </div>
-    <div class="wrap" style="justify-content:center;position:relative;z-index:4;max-width:62%">
-      <div class="kicker"><span class="dot"></span>The Year</div>
-      <h1>A Year of<br><span class="gold">Fellowship, Freedom</span><br>&amp; Service.</h1>
-      <p class="sub" style="margin-top:1.4vw">From flag-hosting to fundraisers, courts to community — the story of SRT 33's most memorable year yet.</p>
-    </div>
-  </section>
-
-  <!-- 3 · INDEPENDENCE DAY -->
-  <section class="slide" id="s3" data-secs="12">
-    <div class="wrap">
-      <div class="kicker"><span class="dot"></span>15 August · Independence Day</div>
-      <h2>Saluting the Flag,<br>Fuelling Young Dreams <span class="gold">🇮🇳</span></h2>
-      <p class="sub">Flag hosting at ZPHS Malkajgiri — followed by <b class="gold">stationery kits for 425 students</b> on Independence Day.</p>
-      <div class="grid g2">
-        <div class="ph frame"><img src="assets/indep_1.jpg" alt=""><div class="cap">Tricolour unfurled with rose petals at the school assembly</div></div>
-        <div class="ph frame"><img src="assets/indep_2.jpg" alt=""><div class="cap">Distributing stationery kits to every student</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4 · RTI WEEK — FOR THE CHILDREN -->
-  <section class="slide" id="s4" data-secs="14">
-    <div class="wrap">
-      <div class="kicker"><span class="dot"></span>November · RTI Week</div>
-      <h2>Freedom Through <span class="gold">Community Service</span></h2>
-      <p class="sub">Our flagship week of seva began with the children — a day at the movies and a carnival of colour.</p>
-      <div class="grid" style="grid-template-columns:repeat(4,1fr);grid-template-rows:1fr">
-        <div class="ph"><img src="assets/rti_movie.jpg" alt=""><div class="cap">🎬 300 kids to the movies</div></div>
-        <div class="ph"><img src="assets/rti_school.jpg" alt=""><div class="cap">A big day out from school</div></div>
-        <div class="ph"><img src="assets/rti_taare1.jpg" alt=""><div class="cap">🎨 Taare Zameen Pe carnival</div></div>
-        <div class="ph"><img src="assets/rti_taare2.jpg" alt=""><div class="cap">🎁 Prizes &amp; gifts for all</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4b · RTI WEEK — SIGHT, HEALTH & PLANET -->
-  <section class="slide" id="s4b" data-secs="13">
-    <div class="wrap">
-      <div class="kicker"><span class="dot"></span>RTI Week · Giving Back</div>
-      <h2>Sight, Health &amp; a <span class="gold">Greener Planet</span></h2>
-      <p class="sub">Restoring sight, donating blood, planting trees — plus the Chairman riding the Area Freedom Drive. Seva in every form.</p>
-      <div class="grid g3">
-        <div class="ph"><img src="assets/rti_eye.jpg" alt=""><div class="cap">👁️ Cataract surgery for rural patients</div></div>
-        <div class="ph"><img src="assets/rti_blood.jpg" alt=""><div class="cap">🩸 Blood donation drive</div></div>
-        <div class="ph"><img src="assets/rti_gogreen.jpg" alt=""><div class="cap">🌳 Go Green — planting for the planet</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5 · PICKLE IN PINK — THE TOURNAMENT -->
-  <section class="slide" id="s5" data-secs="13">
-    <div class="wrap">
-      <div class="kicker"><span class="dot"></span>25 January · Flagship Fundraiser</div>
-      <h2><span class="pink">Pickle in Pink</span> · Season 2</h2>
-      <div class="pip-badge">💗 Cancer-Awareness Pickleball Tournament · Hosted by SRT 33</div>
-      <div class="split">
-        <div class="ph frame"><img src="assets/pip_courts.jpg" alt=""><div class="cap">Glass courts in full swing at Cross Courts</div></div>
-        <div class="ph frame"><img src="assets/pip_festival.jpg" alt=""><div class="cap">Players, families &amp; the whole 33 gang</div></div>
-      </div>
-      <div class="chips">
-        <div class="chip"><b>₹1 Lakh</b> prize pot</div>
-        <div class="chip">Celebrity players</div>
-        <div class="chip">Family day out · food &amp; stalls</div>
-        <div class="chip">Season 2 — bigger &amp; better</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5b · PICKLE IN PINK — CHAMPIONS & COMMUNITY -->
-  <section class="slide" id="s5b" data-secs="12">
-    <div class="wrap">
-      <div class="kicker"><span class="dot"></span>Pickle in Pink · The Payoff</div>
-      <h2>Champions, <span class="pink">Cheers</span> &amp; a Cause</h2>
-      <p class="sub">A packed day of pickleball raising funds &amp; awareness for cancer care — game, set, seva.</p>
-      <div class="grid g3">
-        <div class="ph"><img src="assets/pip_trophy.jpg" alt=""><div class="cap">🏆 Champions crowned</div></div>
-        <div class="ph"><img src="assets/pip_felicitation.jpg" alt=""><div class="cap">Felicitating our winners</div></div>
-        <div class="ph"><img src="assets/pip_dusk.jpg" alt=""><div class="cap">The community turned out in force</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6 · FELLOWSHIPS — SPORT & OUTDOORS -->
-  <section class="slide" id="s6" data-secs="13">
-    <div class="wrap">
-      <div class="kicker"><span class="dot"></span>Play Hard</div>
-      <h2>Fellowships &amp; the <span class="gold">Great Outdoors</span></h2>
-      <p class="sub">Nature walks, tournaments and paddle battles — friendship, one game at a time.</p>
-      <div class="grid" style="grid-template-columns:repeat(4,1fr);grid-template-rows:1fr">
-        <div class="ph"><img src="assets/fel_peacock.jpg" alt=""><div class="cap">KBR nature walk 🦚</div></div>
-        <div class="ph"><img src="assets/fel_kbr_group.jpg" alt=""><div class="cap">Games in the greenery</div></div>
-        <div class="ph"><img src="assets/fel_badminton.jpg" alt=""><div class="cap">Area Badminton</div></div>
-        <div class="ph"><img src="assets/fel_snooker.jpg" alt=""><div class="cap">Snooker night</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6b · FELLOWSHIPS — FOOD & COMPANY -->
-  <section class="slide" id="s6b" data-secs="12">
-    <div class="wrap">
-      <div class="kicker"><span class="dot"></span>Eat, Laugh, Repeat</div>
-      <h2>Good Food, <span class="gold">Great Company</span></h2>
-      <p class="sub">The best conversations happen over a long table — brunches, breakfasts and endless laughs.</p>
-      <div class="grid g3">
-        <div class="ph"><img src="assets/fel_brunch1.jpg" alt=""><div class="cap">Long-table brunch, 33 style</div></div>
-        <div class="ph"><img src="assets/fel_brunch2.jpg" alt=""><div class="cap">Sunday catch-ups</div></div>
-        <div class="ph"><img src="assets/fel_pickle.jpg" alt=""><div class="cap">Post-game feast</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7 · SOCIALS -->
-  <section class="slide" id="s7" data-secs="13">
-    <div class="wrap">
-      <div class="kicker"><span class="dot"></span>Celebrate Together</div>
-      <h2>Socials, Festivals &amp; <span class="gold">Full-On Fun</span></h2>
-      <p class="sub">Dandiya twirls, Diwali sparkle, Secret Santa at Babylon 2, and cheering India to victory.</p>
-      <div class="grid" style="grid-template-columns:repeat(4,1fr);grid-template-rows:1fr">
-        <div class="ph"><img src="assets/soc_dandiya.jpg" alt=""><div class="cap">Dandiya Night</div></div>
-        <div class="ph"><img src="assets/soc_diwali.jpg" alt=""><div class="cap">Diwali celebrations</div></div>
-        <div class="ph"><img src="assets/soc_babylon.jpg" alt=""><div class="cap">Secret Santa · Babylon 2</div></div>
-        <div class="ph"><img src="assets/soc_indiapak.jpg" alt=""><div class="cap">India vs Pakistan 🏏</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8 · GROWING THE FAMILY -->
-  <section class="slide" id="s8" data-secs="11">
-    <div class="wrap">
-      <div class="kicker"><span class="dot"></span>Growing Together</div>
-      <h2>Welcoming New <span class="gold">33 Family</span></h2>
-      <p class="sub">The table grew stronger — two wonderful couples joined the SRT 33 family this year. 🍻</p>
-      <div class="grid g2" style="margin-top:1.4vw">
-        <div class="ph frame"><img src="assets/induct_anish.jpg" alt=""><div class="cap">🤝 Welcoming Anish &amp; Surbhi</div></div>
-        <div class="ph frame" id="anukulCard">
-          <img src="assets/induct_anukul.jpg" alt="" id="anukulImg" style="display:none">
-          <div class="placeholder" id="anukulPh">
-            <div class="ph-ico">🖼️</div>
-            <div class="ph-t">Anukul &amp; Jagrati</div>
-            <div class="ph-s">photo coming soon — drop it at<br><code>assets/induct_anukul.jpg</code></div>
-          </div>
-          <div class="cap" id="anukulCap" style="display:none">🤝 Welcoming Anukul &amp; Jagrati</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 9 · BY THE NUMBERS -->
-  <section class="slide" id="s9" data-secs="12">
-    <div class="wrap">
-      <div class="kicker"><span class="dot"></span>The Year in Numbers</div>
-      <h2>What a <span class="gold">Journey</span> Looks Like</h2>
-      <div class="stats">
-        <div class="stat"><div class="num">19+</div><div class="lbl">Fellowships &amp; Socials</div></div>
-        <div class="stat"><div class="num">₹50k+</div><div class="lbl">Given in Community Service</div></div>
-        <div class="stat"><div class="num">700+</div><div class="lbl">Lives Touched</div></div>
-        <div class="stat"><div class="num">300</div><div class="lbl">Kids at the Movies</div></div>
-        <div class="stat pinky"><div class="num">₹1 Lakh</div><div class="lbl">Pickle in Pink Prize Pot</div></div>
-        <div class="stat"><div class="num">2</div><div class="lbl">New Couples Inducted</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10 · CLOSING -->
-  <section class="slide" id="s10" data-secs="11">
-    <div class="ph">
-      <img src="assets/closing.jpg" alt="">
-      <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(6,12,30,.95) 8%, rgba(6,12,30,.15) 60%)"></div>
-    </div>
-    <div class="wrap">
-      <div class="endcard">
-        <div class="kicker" style="justify-content:center">Cheers to the Journey</div>
-        <h2>Here's to SRT 33 <span class="gold">🥂</span></h2>
-        <p class="sub" style="max-width:100%;text-align:center;margin:0 auto">A beautiful journey of service, sport &amp; friendship. 2025–26.</p>
-      </div>
-    </div>
-  </section>
-
+  <div id="aurora"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div id="grain"></div>
+  <div id="slides"></div>
+  <canvas id="fx"></canvas>
 </div></div>
 
-<div class="hint" id="hint">Press <b>P</b> to play the auto-running cut · ← → to navigate</div>
+<div id="track"><div id="fill"></div><div id="car">🎢</div></div>
+<div class="hint" id="hint">Press <b>P</b> to play · ← → to navigate · <b>F</b> fullscreen</div>
 <div id="ui">
   <button class="ghost" onclick="go(-1)">‹</button>
-  <span class="idx"><span id="cur">1</span>/<span id="tot">10</span></span>
+  <span class="idx"><span id="cur">1</span>/<span id="tot">0</span></span>
   <button class="ghost" onclick="go(1)">›</button>
   <button id="playBtn" onclick="togglePlay()">▶ Play</button>
 </div>
 
 <script>
-  const slides=[...document.querySelectorAll('.slide')];
-  const N=slides.length;
-  const dur=s=>(parseFloat(slides[s].dataset.secs)||12);      // per-slide seconds
-  let i=0, playing=false, timer=null;
-  const bar=document.getElementById('bar');
-  document.getElementById('tot').textContent=N;
+/* ============ SLIDE DATA ============ */
+const A='assets/';
+const SLIDES=[
+ {theme:'title', secs:11, layout:'title', burst:true},
+ {theme:'year', secs:11, layout:'hero', kicker:'The Year',
+   title:'A Year of *Fellowship, Freedom* & Service.',
+   sub:'From flag-hosting to fundraisers, courts to community — the story of SRT 33’s most memorable year yet.',
+   photo:'opening.jpg'},
+ {theme:'indep', secs:12, layout:'g2', kicker:'15 August · Independence Day',
+   title:'Saluting the Flag, *Fuelling Young Dreams* 🇮🇳',
+   sub:'Flag hosting at ZPHS Malkajgiri — followed by stationery kits for 425 students.',
+   photos:[['indep_1.jpg','Tricolour unfurled with rose petals'],['indep_2.jpg','Stationery kits for every student']]},
+ {theme:'rti', secs:14, layout:'g4', kicker:'November · RTI Week',
+   title:'Freedom Through *Community Service*',
+   sub:'Our flagship week of seva began with the children — a day at the movies and a carnival of colour.',
+   photos:[['rti_movie.jpg','🎬 300 kids to the movies'],['rti_school.jpg','A big day out from school'],
+           ['rti_taare1.jpg','🎨 Taare Zameen Pe carnival'],['rti_taare2.jpg','🎁 Prizes & gifts for all']]},
+ {theme:'rtigreen', secs:13, layout:'g3', kicker:'RTI Week · Giving Back',
+   title:'Sight, Health & a *Greener Planet*',
+   sub:'Restoring sight, donating blood, planting trees — plus the Chairman riding the Area Freedom Drive.',
+   photos:[['rti_eye.jpg','👁️ Cataract surgery for rural patients'],['rti_blood.jpg','🩸 Blood donation drive'],
+           ['rti_gogreen.jpg','🌳 Go Green — planting for the planet']]},
+ {theme:'pink', secs:13, layout:'pip1', kicker:'25 January · Flagship Fundraiser',
+   title:'*Pickle in Pink* · Season 2',
+   badge:'💗 Cancer-Awareness Pickleball Tournament · Hosted by SRT 33',
+   photos:[['pip_courts.jpg','Glass courts in full swing'],['pip_festival.jpg','Players, families & the whole 33 gang']],
+   chips:['<b>₹1 Lakh</b> prize pot','Celebrity players','Family day · food & stalls','Season 2 — bigger & better']},
+ {theme:'pink', secs:12, layout:'g3', kicker:'Pickle in Pink · The Payoff', burst:true,
+   title:'Champions, *Cheers* & a Cause',
+   sub:'A packed day of pickleball raising funds & awareness for cancer care — game, set, seva.',
+   photos:[['pip_trophy.jpg','🏆 Champions crowned'],['pip_felicitation.jpg','Felicitating our winners'],
+           ['pip_dusk.jpg','The community turned out in force']]},
+ {theme:'emerald', secs:13, layout:'g4', kicker:'Play Hard',
+   title:'Fellowships & the *Great Outdoors*',
+   sub:'Nature walks, tournaments and paddle battles — friendship, one game at a time.',
+   photos:[['fel_peacock.jpg','KBR nature walk 🦚'],['fel_kbr_group.jpg','Games in the greenery'],
+           ['fel_badminton.jpg','Area Badminton'],['fel_snooker.jpg','Snooker night']]},
+ {theme:'amber', secs:12, layout:'g3', kicker:'Eat, Laugh, Repeat',
+   title:'Good Food, *Great Company*',
+   sub:'The best conversations happen over a long table — brunches, breakfasts and endless laughs.',
+   photos:[['fel_brunch1.jpg','Long-table brunch, 33 style'],['fel_brunch2.jpg','Sunday catch-ups'],
+           ['fel_pickle.jpg','Post-game feast']]},
+ {theme:'violet', secs:13, layout:'g4', kicker:'Celebrate Together',
+   title:'Socials, Festivals & *Full-On Fun*',
+   sub:'Dandiya twirls, Diwali sparkle, Secret Santa at Babylon 2, and cheering India to victory.',
+   photos:[['soc_dandiya.jpg','Dandiya Night'],['soc_diwali.jpg','Diwali celebrations'],
+           ['soc_babylon.jpg','Secret Santa · Babylon 2'],['soc_indiapak.jpg','India vs Pakistan 🏏']]},
+ {theme:'rose', secs:11, layout:'couples', kicker:'Growing Together',
+   title:'Welcoming New *33 Family*',
+   sub:'The table grew stronger — two wonderful couples joined the SRT 33 family this year. 🍻',
+   couples:[['induct_anish.jpg','🤝 Anish & Surbhi',false],['induct_anukul.jpg','🤝 Anukul & Jagrati',true]]},
+ {theme:'gold', secs:12, layout:'stats', kicker:'The Year in Numbers',
+   title:'What a *Journey* Looks Like',
+   stats:[['',19,'+','Fellowships & Socials'],['₹',50,'k+','Given in Community Service'],
+          ['',700,'+','Lives Touched'],['',300,'','Kids at the Movies'],
+          ['₹',1,' Lakh','Pickle in Pink Prize Pot'],['',2,'','New Couples Inducted']]},
+ {theme:'sunset', secs:12, layout:'closing', id:'cl', burst:true, kicker:'Cheers to the Journey',
+   title:'Here’s to *SRT 33* 🥂',
+   sub:'A beautiful journey of service, sport & friendship. 2025–26.',
+   photo:'closing.jpg'},
+];
+/* theme -> accent + aurora colors */
+const THEMES={
+  title:['#f4b41a','#3b1d6e','#7a1f5a','#12245a'],
+  year:['#f4b41a','#1c3a7a','#6a4b12','#0a1230'],
+  indep:['#ff9933','#0f5a3c','#b25a12','#123a2a'],
+  rti:['#16d1c6','#0d5a6e','#164a8a','#0a2230'],
+  rtigreen:['#3ad07a','#12603e','#155a6a','#0a2620'],
+  pink:['#ff4f8b','#7a1f5a','#3b1d6e','#2a0f28'],
+  emerald:['#35d07a','#12603e','#1c5a6e','#0a2320'],
+  amber:['#f4b41a','#7a4a12','#8a5a1a','#241606'],
+  violet:['#a58bff','#3b1d6e','#5a2f8a','#180f2e'],
+  rose:['#ff86b0','#7a2f4a','#8a4a6a','#2a1220'],
+  gold:['#f4b41a','#6a4b12','#3b2d6e','#141026'],
+  sunset:['#ffb05a','#7a1f5a','#b2451a','#2a1020'],
+};
 
-  function show(n){
-    slides[i].classList.remove('active');
-    i=(n+N)%N;
-    slides[i].classList.add('active');
-    document.getElementById('cur').textContent=i+1;
-    if(playing) tick();
-  }
-  function go(d){ stop(); show(i+d); }
+/* ============ RENDER ============ */
+const wrapWords=t=>{
+  const parts=t.split('*'); let html='';
+  parts.forEach((p,idx)=>{const acc=idx%2===1;
+    p.split(/(\s+)/).forEach(tok=>{
+      if(/^\s+$/.test(tok)){html+=' ';return;} if(!tok)return;
+      const inner=acc?'<em>'+tok+'</em>':tok;
+      html+='<span class="w"><span class="wi">'+inner+'</span></span>';
+    });});
+  return html;
+};
+const tile=(src,cap)=>`<div class="ph"><img src="${A}${src}" alt=""><div class="cap">${cap}</div></div>`;
 
-  function runBar(secs){
-    bar.style.transition='none'; bar.style.width='0';
-    void bar.offsetWidth;
-    bar.style.transition='width '+secs+'s linear'; bar.style.width='100%';
-  }
-  function tick(){                         // run the current slide, then queue the next
-    clearTimeout(timer);
-    const s=dur(i);
-    runBar(s);
-    timer=setTimeout(()=>{ if(i===N-1){stop();return;} show(i+1); }, s*1000);
-  }
-  function play(){
-    playing=true; document.getElementById('playBtn').textContent='❚❚ Pause';
-    document.getElementById('hint').style.display='none';
-    tick();
-  }
-  function stop(){
-    playing=false; clearTimeout(timer);
-    document.getElementById('playBtn').textContent='▶ Play';
-    bar.style.transition='none'; bar.style.width='0';
-  }
-  function togglePlay(){ playing?stop():(i===N-1&&show(0),play()); }
-  function restartPlay(){ show(0); play(); }
+function build(s,idx){
+  const sec=document.createElement('section');
+  sec.className='slide'; sec.id=s.id||('sl'+idx); sec.dataset.secs=s.secs; sec.dataset.theme=s.theme;
+  let inner='';
+  const head=(k,t,sub)=>`${k?`<div class="kicker"><span class="dot"></span>${k}</div>`:''}
+     <h2>${wrapWords(t)}</h2>${sub?`<p class="sub">${sub}</p>`:''}`;
 
-  document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowRight')go(1);
-    else if(e.key==='ArrowLeft')go(-1);
-    else if(e.key.toLowerCase()==='p'){ e.preventDefault(); playing?stop():restartPlay(); }
-    else if(e.key==='f'){ document.documentElement.requestFullscreen?.(); }
+  if(s.layout==='title'){
+    inner=`<div class="wrap title-wrap">
+      <svg id="trackSvg" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid slice">
+        <defs><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#ff4f8b"/><stop offset="1" stop-color="#f4b41a"/></linearGradient></defs>
+        <path id="trackPath" d="M-20 480 C 160 480 180 200 360 220 S 560 460 720 360 S 940 120 1040 200"/>
+      </svg>
+      <img id="logoImg" src="${A}journey-logo.png" alt="Journey 33 logo">
+      <div class="tagline">A Year in Highlights · Secunderabad Round Table 33</div>
+      <div class="rule"></div></div>`;
+  } else if(s.layout==='hero'){
+    inner=`<div class="bg" style="position:absolute;inset:0;z-index:0">
+        <div class="ph" style="position:absolute;inset:0;border-radius:0;box-shadow:none;transition:none;opacity:1;transform:none">
+          <img src="${A}${s.photo}" style="transform:scale(1)"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,12,34,.92) 32%,rgba(7,12,34,.15))"></div></div>
+      <div class="wrap" style="max-width:64%">${head(s.kicker,s.title,s.sub)}</div>`;
+  } else if(s.layout==='closing'){
+    inner=`<div class="bg"><img src="${A}${s.photo}"></div>
+      <div class="wrap"><div class="kicker" style="justify-content:center"><span class="dot"></span>${s.kicker}</div>
+      <h2>${wrapWords(s.title)}</h2><p class="sub" style="max-width:100%;text-align:center;margin:0 auto">${s.sub}</p></div>`;
+  } else if(s.layout==='stats'){
+    inner=`<div class="wrap">${head(s.kicker,s.title)}
+      <div class="stats">${s.stats.map(([p,v,su,l])=>
+        `<div class="stat"><div class="num" data-pre="${p}" data-val="${v}" data-suf="${su}">${p}0${su}</div><div class="lbl">${l}</div></div>`).join('')}</div></div>`;
+  } else if(s.layout==='pip1'){
+    inner=`<div class="wrap"><div class="kicker"><span class="dot"></span>${s.kicker}</div>
+      <h2>${wrapWords(s.title)}</h2>
+      <div class="pip-badge">${s.badge}</div>
+      <div class="split"><div class="ph"><img src="${A}${s.photos[0][0]}"><div class="cap">${s.photos[0][1]}</div></div>
+      <div class="ph"><img src="${A}${s.photos[1][0]}"><div class="cap">${s.photos[1][1]}</div></div></div>
+      <div class="chips">${s.chips.map(c=>`<div class="chip">${c}</div>`).join('')}</div></div>`;
+  } else if(s.layout==='couples'){
+    inner=`<div class="wrap">${head(s.kicker,s.title,s.sub)}
+      <div class="grid g2">
+        <div class="ph"><img src="${A}${s.couples[0][0]}"><div class="cap">${s.couples[0][1]}</div></div>
+        <div class="ph" id="anukulCard"><img src="${A}${s.couples[1][0]}" id="anukulImg" style="display:none">
+          <div class="placeholder" id="anukulPh"><div class="ph-ico">🖼️</div><div class="ph-t">Anukul & Jagrati</div>
+          <div class="ph-s">photo coming soon — drop it at<br><code>assets/induct_anukul.jpg</code></div></div>
+          <div class="cap" id="anukulCap" style="display:none">${s.couples[1][1]}</div></div></div></div>`;
+  } else { /* g2/g3/g4 grids */
+    const cols=s.layout==='g2'?'g2':s.layout==='g3'?'g3':'g4';
+    inner=`<div class="wrap">${head(s.kicker,s.title,s.sub)}
+      <div class="grid ${cols}">${s.photos.map(p=>tile(p[0],p[1])).join('')}</div></div>`;
+  }
+  sec.innerHTML=inner;
+  return sec;
+}
+
+const host=document.getElementById('slides');
+SLIDES.forEach((s,i)=>host.appendChild(build(s,i)));
+const slides=[...document.querySelectorAll('.slide')];
+const N=slides.length;
+document.getElementById('tot').textContent=N;
+
+/* ============ PLAYER ============ */
+let i=0, playing=false, timer=null;
+const dur=s=>(parseFloat(slides[s].dataset.secs)||12);
+const deck=document.getElementById('deck');
+const fill=document.getElementById('fill'), car=document.getElementById('car');
+
+function applyTheme(t){
+  const [ac,c1,c2,c3]=THEMES[t]||THEMES.title;
+  deck.style.setProperty('--accent',ac);
+  deck.style.setProperty('--c1',c1); deck.style.setProperty('--c2',c2); deck.style.setProperty('--c3',c3);
+  document.documentElement.style.setProperty('--accent',ac);
+}
+function setStagger(sl){
+  sl.querySelectorAll('.wi').forEach((w,k)=>w.style.transitionDelay=(0.15+k*0.06)+'s');
+  sl.querySelectorAll('.ph,.stat,.chip').forEach((p,k)=>p.style.transitionDelay=(0.25+k*0.11)+'s');
+}
+slides.forEach(setStagger);
+
+function progress(){
+  const done=SLIDES.slice(0,i).reduce((a,s)=>a+s.secs,0);
+  const total=SLIDES.reduce((a,s)=>a+s.secs,0);
+  const startPct=done/total*100, endPct=(done+SLIDES[i].secs)/total*100;
+  fill.style.transition='none'; fill.style.width=startPct+'%'; car.style.transition='none'; car.style.left=startPct+'%';
+  void fill.offsetWidth;
+  const d=playing?SLIDES[i].secs:0.35;
+  fill.style.transition='width '+d+'s linear'; car.style.transition='left '+d+'s linear';
+  fill.style.width=(playing?endPct:startPct)+'%'; car.style.left=(playing?endPct:startPct)+'%';
+}
+
+function activate(){
+  const s=SLIDES[i], sl=slides[i];
+  applyTheme(s.theme);
+  sl.classList.add('active');
+  document.getElementById('cur').textContent=i+1;
+  progress();
+  if(s.layout==='stats') countUp(sl);
+}
+function show(n){
+  const prev=slides[i]; prev.classList.add('leaving'); prev.classList.remove('active');
+  setTimeout(()=>prev.classList.remove('leaving'),800);
+  i=(n+N)%N;
+  activate();
+  if(playing) tick();
+}
+function go(d){ stop(); show(i+d); }
+function tick(){ clearTimeout(timer); timer=setTimeout(()=>{ if(i===N-1){stop();return;} show(i+1); }, dur(i)*1000); }
+function play(){ playing=true; document.getElementById('playBtn').textContent='❚❚ Pause';
+  document.getElementById('hint').style.display='none'; progress(); tick(); }
+function stop(){ playing=false; clearTimeout(timer); document.getElementById('playBtn').textContent='▶ Play'; progress(); }
+function togglePlay(){ playing?stop():(i===N-1&&(resetTo(0)),play()); }
+function resetTo(n){ slides[i].classList.remove('active'); i=n; activate(); }
+
+function countUp(sl){
+  sl.querySelectorAll('.num').forEach(el=>{
+    const pre=el.dataset.pre, suf=el.dataset.suf, target=+el.dataset.val; let t0=null;
+    const step=ts=>{ t0=t0||ts; const p=Math.min((ts-t0)/1100,1); const e=1-Math.pow(1-p,3);
+      el.textContent=pre+Math.round(target*e)+suf; if(p<1)requestAnimationFrame(step); };
+    requestAnimationFrame(step);
   });
-  document.getElementById('deck').addEventListener('click',e=>{
-    if(e.target.closest('#ui'))return;
-    const r=document.getElementById('deck').getBoundingClientRect();
-    go(e.clientX < r.left+r.width/2 ? -1 : 1);
-  });
+}
 
-  // swap in real logo if present
-  const li=document.getElementById('logoImg');
-  li.onload=()=>{ li.style.display='block'; document.getElementById('wordmark').style.display='none'; };
+/* reveal Anukul photo if present */
+function hookAnukul(){
+  const ai=document.getElementById('anukulImg'); if(!ai)return;
+  ai.onload=()=>{ai.style.display='block';document.getElementById('anukulPh').style.display='none';document.getElementById('anukulCap').style.display='block';};
+}
+hookAnukul();
 
-  // reveal Anukul & Jagrati photo once it's dropped into assets/
-  const ai=document.getElementById('anukulImg');
-  ai.onload=()=>{ ai.style.display='block';
-    document.getElementById('anukulPh').style.display='none';
-    document.getElementById('anukulCap').style.display='block'; };
+/* ============ CONFETTI / BOKEH CANVAS ============ */
+const cv=document.getElementById('fx'), ctx=cv.getContext('2d'); let W,H,parts=[],bokeh=[];
+function resize(){ const r=deck.getBoundingClientRect(); cv.width=W=r.width; cv.height=H=r.height; }
+resize(); addEventListener('resize',resize);
+for(let k=0;k<26;k++)bokeh.push({x:Math.random(),y:Math.random(),r:6+Math.random()*22,s:.02+Math.random()*.05,a:.05+Math.random()*.12});
+const COLORS=['#ff4f8b','#f4b41a','#35d07a','#a58bff','#ff3b3b','#ffd873','#16d1c6'];
+function confettiBurst(){
+  const cx=W*0.5, cy=H*0.42;
+  for(let k=0;k<120;k++){ const ang=Math.random()*Math.PI*2, sp=4+Math.random()*9;
+    parts.push({x:cx,y:cy,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp-3,g:.18+Math.random()*.12,
+      w:5+Math.random()*7,h:8+Math.random()*10,rot:Math.random()*6,vr:(-.3+Math.random()*.6),
+      c:COLORS[k%COLORS.length],life:1}); }
+}
+function loop(){
+  ctx.clearRect(0,0,W,H);
+  // ambient bokeh
+  bokeh.forEach(b=>{ b.y-=b.s/100; if(b.y<-0.1)b.y=1.1;
+    ctx.beginPath(); ctx.fillStyle='rgba(255,255,255,'+b.a+')';
+    ctx.arc(b.x*W,b.y*H,b.r,0,7); ctx.fill(); });
+  // confetti
+  parts=parts.filter(p=>p.life>0);
+  parts.forEach(p=>{ p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; p.life-=.008;
+    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=Math.max(p.life,0);
+    ctx.fillStyle=p.c; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore(); });
+  requestAnimationFrame(loop);
+}
+loop();
+
+/* ============ mouse parallax ============ */
+deck.addEventListener('mousemove',e=>{
+  const r=deck.getBoundingClientRect(), mx=(e.clientX-r.left)/r.width-.5, my=(e.clientY-r.top)/r.height-.5;
+  slides[i].querySelectorAll('.ph img').forEach(img=>{ img.style.transform=`scale(1.06) translate(${mx*-12}px,${my*-12}px)`; });
+});
+deck.addEventListener('mouseleave',()=>slides[i].querySelectorAll('.ph img').forEach(img=>img.style.transform=''));
+
+/* ============ controls ============ */
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')go(1); else if(e.key==='ArrowLeft')go(-1);
+  else if(e.key.toLowerCase()==='p'){e.preventDefault(); playing?stop():(i===N-1&&resetTo(0),play());}
+  else if(e.key.toLowerCase()==='f')document.documentElement.requestFullscreen?.();
+});
+deck.addEventListener('click',e=>{ if(e.target.closest('#ui'))return;
+  const r=deck.getBoundingClientRect(); go(e.clientX<r.left+r.width/2?-1:1); });
+
+/* init */
+activate();
 </script>
 </body>
 </html>
