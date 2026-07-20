@@ -35,8 +35,9 @@
   /* photo helpers with slow ken-burns */
   .ph{position:relative;overflow:hidden;border-radius:1.1vw;background:#06102b}
   .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .slide.active .ph img{animation:kb 7s ease-out forwards}
-  @keyframes kb{from{transform:scale(1.14)}to{transform:scale(1)}}
+  .slide.active .ph img{animation:kb 15s ease-out forwards}
+  @keyframes kb{from{transform:scale(1.12)}to{transform:scale(1)}}
+  @media (prefers-reduced-motion:reduce){.slide.active .ph img{animation:none}}
   .cap{position:absolute;left:0;right:0;bottom:0;padding:1.6vw 1.2vw .9vw;
        font-size:1.15vw;font-weight:600;color:#fff;
        background:linear-gradient(to top, rgba(4,10,28,.92), transparent);z-index:2}
@@ -110,7 +111,7 @@
 <div id="stage"><div id="deck">
 
   <!-- 1 · TITLE / LOGO -->
-  <section class="slide active" id="s1">
+  <section class="slide active" id="s1" data-secs="10">
     <div class="wrap">
       <div class="logo-lockup">
         <img id="logoImg" src="assets/journey-logo.png" alt="Journey logo">
@@ -123,7 +124,7 @@
   </section>
 
   <!-- 2 · THE YEAR -->
-  <section class="slide" id="s2">
+  <section class="slide" id="s2" data-secs="11">
     <div class="ph" style="position:absolute;inset:0;border-radius:0">
       <img src="assets/opening.jpg" alt="">
       <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(6,12,30,.9) 30%, rgba(6,12,30,.25))"></div>
@@ -136,7 +137,7 @@
   </section>
 
   <!-- 3 · INDEPENDENCE DAY -->
-  <section class="slide" id="s3">
+  <section class="slide" id="s3" data-secs="12">
     <div class="wrap">
       <div class="kicker"><span class="dot"></span>15 August · Independence Day</div>
       <h2>Saluting the Flag,<br>Fuelling Young Dreams <span class="gold">🇮🇳</span></h2>
@@ -148,62 +149,99 @@
     </div>
   </section>
 
-  <!-- 4 · RTI WEEK -->
-  <section class="slide" id="s4">
+  <!-- 4 · RTI WEEK — FOR THE CHILDREN -->
+  <section class="slide" id="s4" data-secs="14">
     <div class="wrap">
       <div class="kicker"><span class="dot"></span>November · RTI Week</div>
       <h2>Freedom Through <span class="gold">Community Service</span></h2>
-      <p class="sub">A week of seva — cinema for 300 kids, a drawing carnival, tree-planting, blood donation &amp; sight restored.</p>
-      <div class="grid g6">
-        <div class="ph"><img src="assets/rti_movie.jpg" alt=""><div class="cap">🎬 300 kids to the movies at Cinépolis</div></div>
-        <div class="ph"><img src="assets/rti_taare1.jpg" alt=""><div class="cap">🎨 Taare Zameen Pe — a drawing carnival</div></div>
-        <div class="ph"><img src="assets/rti_eye.jpg" alt=""><div class="cap">👁️ Cataract surgery for rural patients</div></div>
-        <div class="ph"><img src="assets/rti_taare2.jpg" alt=""><div class="cap">🎁 Prizes &amp; gifts for every child</div></div>
-        <div class="ph"><img src="assets/rti_gogreen.jpg" alt=""><div class="cap">🌳 Go Green — planting for the planet</div></div>
-        <div class="ph"><img src="assets/rti_blood.jpg" alt=""><div class="cap">🩸 Blood donation drive</div></div>
+      <p class="sub">Our flagship week of seva began with the children — a day at the movies and a carnival of colour.</p>
+      <div class="grid" style="grid-template-columns:repeat(4,1fr);grid-template-rows:1fr">
+        <div class="ph"><img src="assets/rti_movie.jpg" alt=""><div class="cap">🎬 300 kids to the movies</div></div>
+        <div class="ph"><img src="assets/rti_school.jpg" alt=""><div class="cap">A big day out from school</div></div>
+        <div class="ph"><img src="assets/rti_taare1.jpg" alt=""><div class="cap">🎨 Taare Zameen Pe carnival</div></div>
+        <div class="ph"><img src="assets/rti_taare2.jpg" alt=""><div class="cap">🎁 Prizes &amp; gifts for all</div></div>
       </div>
     </div>
   </section>
 
-  <!-- 5 · PICKLE IN PINK -->
-  <section class="slide" id="s5">
+  <!-- 4b · RTI WEEK — SIGHT, HEALTH & PLANET -->
+  <section class="slide" id="s4b" data-secs="13">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>RTI Week · Giving Back</div>
+      <h2>Sight, Health &amp; a <span class="gold">Greener Planet</span></h2>
+      <p class="sub">Restoring sight, donating blood, planting trees — plus the Chairman riding the Area Freedom Drive. Seva in every form.</p>
+      <div class="grid g3">
+        <div class="ph"><img src="assets/rti_eye.jpg" alt=""><div class="cap">👁️ Cataract surgery for rural patients</div></div>
+        <div class="ph"><img src="assets/rti_blood.jpg" alt=""><div class="cap">🩸 Blood donation drive</div></div>
+        <div class="ph"><img src="assets/rti_gogreen.jpg" alt=""><div class="cap">🌳 Go Green — planting for the planet</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · PICKLE IN PINK — THE TOURNAMENT -->
+  <section class="slide" id="s5" data-secs="13">
     <div class="wrap">
       <div class="kicker"><span class="dot"></span>25 January · Flagship Fundraiser</div>
       <h2><span class="pink">Pickle in Pink</span> · Season 2</h2>
       <div class="pip-badge">💗 Cancer-Awareness Pickleball Tournament · Hosted by SRT 33</div>
       <div class="split">
-        <div class="ph frame"><img src="assets/pip_trophy.jpg" alt=""><div class="cap">Champions crowned on court at Cross Courts</div></div>
-        <div class="stack">
-          <div class="ph"><img src="assets/pip_felicitation.jpg" alt=""><div class="cap">Felicitating our winners</div></div>
-          <div class="ph"><img src="assets/pip_festival.jpg" alt=""><div class="cap">Players, families &amp; the whole 33 gang</div></div>
-        </div>
+        <div class="ph frame"><img src="assets/pip_courts.jpg" alt=""><div class="cap">Glass courts in full swing at Cross Courts</div></div>
+        <div class="ph frame"><img src="assets/pip_festival.jpg" alt=""><div class="cap">Players, families &amp; the whole 33 gang</div></div>
       </div>
       <div class="chips">
         <div class="chip"><b>₹1 Lakh</b> prize pot</div>
         <div class="chip">Celebrity players</div>
         <div class="chip">Family day out · food &amp; stalls</div>
-        <div class="chip">Bigger &amp; better than Season 1</div>
+        <div class="chip">Season 2 — bigger &amp; better</div>
       </div>
     </div>
   </section>
 
-  <!-- 6 · FELLOWSHIPS -->
-  <section class="slide" id="s6">
+  <!-- 5b · PICKLE IN PINK — CHAMPIONS & COMMUNITY -->
+  <section class="slide" id="s5b" data-secs="12">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>Pickle in Pink · The Payoff</div>
+      <h2>Champions, <span class="pink">Cheers</span> &amp; a Cause</h2>
+      <p class="sub">A packed day of pickleball raising funds &amp; awareness for cancer care — game, set, seva.</p>
+      <div class="grid g3">
+        <div class="ph"><img src="assets/pip_trophy.jpg" alt=""><div class="cap">🏆 Champions crowned</div></div>
+        <div class="ph"><img src="assets/pip_felicitation.jpg" alt=""><div class="cap">Felicitating our winners</div></div>
+        <div class="ph"><img src="assets/pip_dusk.jpg" alt=""><div class="cap">The community turned out in force</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · FELLOWSHIPS — SPORT & OUTDOORS -->
+  <section class="slide" id="s6" data-secs="13">
     <div class="wrap">
       <div class="kicker"><span class="dot"></span>Play Hard</div>
       <h2>Fellowships &amp; the <span class="gold">Great Outdoors</span></h2>
       <p class="sub">Nature walks, tournaments and paddle battles — friendship, one game at a time.</p>
-      <div class="grid g2" style="grid-template-columns:repeat(4,1fr);grid-template-rows:1fr">
+      <div class="grid" style="grid-template-columns:repeat(4,1fr);grid-template-rows:1fr">
         <div class="ph"><img src="assets/fel_peacock.jpg" alt=""><div class="cap">KBR nature walk 🦚</div></div>
+        <div class="ph"><img src="assets/fel_kbr_group.jpg" alt=""><div class="cap">Games in the greenery</div></div>
         <div class="ph"><img src="assets/fel_badminton.jpg" alt=""><div class="cap">Area Badminton</div></div>
         <div class="ph"><img src="assets/fel_snooker.jpg" alt=""><div class="cap">Snooker night</div></div>
-        <div class="ph"><img src="assets/fel_pickle.jpg" alt=""><div class="cap">Pickle &amp; Paddle</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6b · FELLOWSHIPS — FOOD & COMPANY -->
+  <section class="slide" id="s6b" data-secs="12">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>Eat, Laugh, Repeat</div>
+      <h2>Good Food, <span class="gold">Great Company</span></h2>
+      <p class="sub">The best conversations happen over a long table — brunches, breakfasts and endless laughs.</p>
+      <div class="grid g3">
+        <div class="ph"><img src="assets/fel_brunch1.jpg" alt=""><div class="cap">Long-table brunch, 33 style</div></div>
+        <div class="ph"><img src="assets/fel_brunch2.jpg" alt=""><div class="cap">Sunday catch-ups</div></div>
+        <div class="ph"><img src="assets/fel_pickle.jpg" alt=""><div class="cap">Post-game feast</div></div>
       </div>
     </div>
   </section>
 
   <!-- 7 · SOCIALS -->
-  <section class="slide" id="s7">
+  <section class="slide" id="s7" data-secs="13">
     <div class="wrap">
       <div class="kicker"><span class="dot"></span>Celebrate Together</div>
       <h2>Socials, Festivals &amp; <span class="gold">Full-On Fun</span></h2>
@@ -218,7 +256,7 @@
   </section>
 
   <!-- 8 · GROWING THE FAMILY -->
-  <section class="slide" id="s8">
+  <section class="slide" id="s8" data-secs="11">
     <div class="wrap">
       <div class="kicker"><span class="dot"></span>Growing Together</div>
       <h2>Welcoming New <span class="gold">33 Family</span></h2>
@@ -239,7 +277,7 @@
   </section>
 
   <!-- 9 · BY THE NUMBERS -->
-  <section class="slide" id="s9">
+  <section class="slide" id="s9" data-secs="12">
     <div class="wrap">
       <div class="kicker"><span class="dot"></span>The Year in Numbers</div>
       <h2>What a <span class="gold">Journey</span> Looks Like</h2>
@@ -255,7 +293,7 @@
   </section>
 
   <!-- 10 · CLOSING -->
-  <section class="slide" id="s10">
+  <section class="slide" id="s10" data-secs="11">
     <div class="ph">
       <img src="assets/closing.jpg" alt="">
       <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(6,12,30,.95) 8%, rgba(6,12,30,.15) 60%)"></div>
@@ -271,43 +309,50 @@
 
 </div></div>
 
-<div class="hint" id="hint">Press <b>P</b> to play the 60-second cut · ← → to navigate</div>
+<div class="hint" id="hint">Press <b>P</b> to play the auto-running cut · ← → to navigate</div>
 <div id="ui">
   <button class="ghost" onclick="go(-1)">‹</button>
-  <span class="idx"><span id="cur">1</span>/10</span>
+  <span class="idx"><span id="cur">1</span>/<span id="tot">10</span></span>
   <button class="ghost" onclick="go(1)">›</button>
-  <button id="playBtn" onclick="togglePlay()">▶ Play 60s</button>
+  <button id="playBtn" onclick="togglePlay()">▶ Play</button>
 </div>
 
 <script>
   const slides=[...document.querySelectorAll('.slide')];
-  const N=slides.length, SECS=6; // 10 x 6s = 60s
-  let i=0, playing=false, timer=null, barAnim=null;
+  const N=slides.length;
+  const dur=s=>(parseFloat(slides[s].dataset.secs)||12);      // per-slide seconds
+  let i=0, playing=false, timer=null;
   const bar=document.getElementById('bar');
+  document.getElementById('tot').textContent=N;
 
   function show(n){
     slides[i].classList.remove('active');
     i=(n+N)%N;
     slides[i].classList.add('active');
     document.getElementById('cur').textContent=i+1;
-    if(playing) runBar();
+    if(playing) tick();
   }
   function go(d){ stop(); show(i+d); }
 
-  function runBar(){
+  function runBar(secs){
     bar.style.transition='none'; bar.style.width='0';
     void bar.offsetWidth;
-    bar.style.transition='width '+SECS+'s linear'; bar.style.width='100%';
+    bar.style.transition='width '+secs+'s linear'; bar.style.width='100%';
+  }
+  function tick(){                         // run the current slide, then queue the next
+    clearTimeout(timer);
+    const s=dur(i);
+    runBar(s);
+    timer=setTimeout(()=>{ if(i===N-1){stop();return;} show(i+1); }, s*1000);
   }
   function play(){
     playing=true; document.getElementById('playBtn').textContent='❚❚ Pause';
     document.getElementById('hint').style.display='none';
-    runBar();
-    timer=setInterval(()=>{ if(i===N-1){stop();return;} show(i+1); }, SECS*1000);
+    tick();
   }
   function stop(){
-    playing=false; clearInterval(timer);
-    document.getElementById('playBtn').textContent='▶ Play 60s';
+    playing=false; clearTimeout(timer);
+    document.getElementById('playBtn').textContent='▶ Play';
     bar.style.transition='none'; bar.style.width='0';
   }
   function togglePlay(){ playing?stop():(i===N-1&&show(0),play()); }
