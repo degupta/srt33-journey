@@ -221,6 +221,7 @@
   <span class="idx"><span id="cur">1</span>/<span id="tot">0</span></span>
   <button class="ghost" onclick="go(1)">›</button>
   <button class="ghost" id="mbtn" onclick="toggleMusic()">🔊 Music</button>
+  <button class="ghost" id="fsbtn" onclick="toggleFs()" title="Fullscreen (F)">⛶ Fullscreen</button>
   <button id="playBtn" onclick="togglePlay()">▶ Play</button>
 </div>
 
@@ -513,7 +514,7 @@ deck.addEventListener('mouseleave',()=>slides[i].querySelectorAll('.ph img').for
 addEventListener('keydown',e=>{
   if(e.key==='ArrowRight')go(1); else if(e.key==='ArrowLeft')go(-1);
   else if(e.key.toLowerCase()==='p'){e.preventDefault(); playing?stop():(i===N-1&&resetTo(0),play());}
-  else if(e.key.toLowerCase()==='f')document.documentElement.requestFullscreen?.();
+  else if(e.key.toLowerCase()==='f')toggleFs();
 });
 deck.addEventListener('click',e=>{ if(e.target.closest('#ui'))return;
   const r=deck.getBoundingClientRect(); go(e.clientX<r.left+r.width/2?-1:1); });
@@ -526,6 +527,15 @@ function toggleMusic(){
   if(bgm.paused){ muted=false; bgm.play().catch(()=>{}); mbtn.textContent='🔊 Music'; }
   else { muted=true; bgm.pause(); mbtn.textContent='🔇 Muted'; }
 }
+
+/* ============ fullscreen ============ */
+function toggleFs(){
+  if(!document.fullscreenElement){ (document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen)?.call(document.documentElement); }
+  else { (document.exitFullscreen||document.webkitExitFullscreen)?.call(document); }
+}
+document.addEventListener('fullscreenchange',()=>{
+  const b=document.getElementById('fsbtn'); if(b) b.textContent=document.fullscreenElement?'⛶ Exit':'⛶ Fullscreen';
+});
 
 /* init */
 activate();
