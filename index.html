@@ -146,6 +146,46 @@
   #cl .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,12,34,.96) 12%,rgba(7,12,34,.2) 65%)}
   #cl .wrap{justify-content:flex-end;text-align:center;align-items:center}
   #cl h2{font-size:5.2vw}
+  /* ---------- awards (flashy) ---------- */
+  .award-title-wrap,.award-wrap{align-items:center;text-align:center;justify-content:center;position:relative}
+  .spotlight{position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse 55% 55% at 50% 42%,rgba(244,180,26,.30),transparent 62%)}
+  .spotlight::before,.spotlight::after{content:"";position:absolute;left:50%;top:6%;width:55%;height:120%;
+    transform-origin:top center;pointer-events:none;filter:blur(8px);
+    background:linear-gradient(to bottom,rgba(244,180,26,.20),transparent 70%)}
+  .spotlight::before{transform:translateX(-50%) rotate(-15deg);animation:beam 6s ease-in-out infinite}
+  .spotlight::after{transform:translateX(-50%) rotate(15deg);animation:beam 6s ease-in-out infinite reverse}
+  @keyframes beam{50%{opacity:.55;transform:translateX(-50%) rotate(0deg)}}
+  .award-kick,.award-label{font-size:1.2vw;letter-spacing:.5em;text-transform:uppercase;color:var(--gold-soft);
+    font-weight:600;z-index:2;opacity:0;transform:translateY(12px)}
+  .slide.active .award-kick,.slide.active .award-label{animation:fadeUp .8s ease .3s forwards}
+  .awards-big{font-size:7vw;font-weight:800;z-index:2;letter-spacing:-.02em;margin-top:.6vw}
+  .award-icon{font-size:7vw;z-index:2;opacity:0;transform:scale(.4) rotate(-18deg);
+    filter:drop-shadow(0 12px 26px rgba(0,0,0,.55))}
+  .slide.active .award-icon{animation:iconPop 1s cubic-bezier(.2,1.4,.4,1) .1s forwards}
+  @keyframes iconPop{60%{transform:scale(1.16) rotate(6deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+  .award-name{font-size:6.2vw;font-weight:800;line-height:1.02;margin:.5vw 0;z-index:2;letter-spacing:-.01em;
+    background:linear-gradient(90deg,#b8860b,#fff6d0,#f4b41a,#fff6d0,#b8860b);background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    opacity:0;transform:scale(.82);filter:blur(16px)}
+  .slide.active .award-name{animation:awardReveal 1.1s cubic-bezier(.2,.7,.24,1) .45s forwards, shine 3.2s linear 1.6s infinite}
+  @keyframes awardReveal{to{opacity:1;transform:scale(1);filter:blur(0)}}
+  @keyframes shine{to{background-position:-220% 0}}
+  .award-sub{font-size:1.5vw;letter-spacing:.28em;text-transform:uppercase;color:#dbe3fb;z-index:2;margin-top:.5vw;
+    opacity:0;transform:translateY(12px)}
+  .slide.active .award-sub{animation:fadeUp 1s ease 1.1s forwards}
+  .nameplate{margin-top:2vw;z-index:2;display:inline-flex;align-items:center;gap:1vw;align-self:center;
+    background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.02));
+    border:1px solid rgba(244,180,26,.5);border-radius:100px;padding:.85vw 2.2vw;
+    opacity:0;transform:translateY(20px) scale(.9)}
+  .slide.active .nameplate{animation:plate 1s cubic-bezier(.2,1.3,.4,1) 1.5s forwards}
+  @keyframes plate{to{opacity:1;transform:none}}
+  .nameplate .who{font-size:2.2vw;font-weight:800;color:#fff}
+  .nameplate .ph-note{font-size:1.2vw;color:var(--gold-soft);font-weight:600}
+  .spark{position:absolute;z-index:1;pointer-events:none;color:#fff6d0;font-size:1.7vw;opacity:0;
+    text-shadow:0 0 12px rgba(244,180,26,.85);animation:tw 2.6s ease-in-out infinite}
+  .slide.active .spark{opacity:1}
+  @keyframes tw{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:1;transform:scale(1.25)}}
   /* ---------- chrome: coaster progress ---------- */
   #track{position:fixed;left:6%;right:6%;bottom:26px;height:3px;z-index:40;
     background:rgba(255,255,255,.16);border-radius:3px}
@@ -160,6 +200,7 @@
   #ui button.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)}
   #ui .idx{color:#cdd6f0;min-width:46px;text-align:center;font-variant-numeric:tabular-nums}
   .hint{position:fixed;bottom:78px;left:50%;transform:translateX(-50%);z-index:41;color:#9fb0d8;font-size:12px;letter-spacing:.05em;opacity:.7}
+  #credit{position:fixed;left:12px;bottom:8px;z-index:41;color:#8494bd;font-size:10px;letter-spacing:.03em;opacity:.55}
   @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -173,10 +214,13 @@
 
 <div id="track"><div id="fill"></div><div id="car">🎢</div></div>
 <div class="hint" id="hint">Press <b>P</b> to play · ← → to navigate · <b>F</b> fullscreen</div>
+<audio id="bgm" src="assets/music.mp3" loop preload="auto"></audio>
+<div id="credit">♪ “Voltaic” — Kevin MacLeod (incompetech.com) · CC BY 4.0</div>
 <div id="ui">
   <button class="ghost" onclick="go(-1)">‹</button>
   <span class="idx"><span id="cur">1</span>/<span id="tot">0</span></span>
   <button class="ghost" onclick="go(1)">›</button>
+  <button class="ghost" id="mbtn" onclick="toggleMusic()">🔊 Music</button>
   <button id="playBtn" onclick="togglePlay()">▶ Play</button>
 </div>
 
@@ -208,11 +252,11 @@ const SLIDES=[
    badge:'💗 Cancer-Awareness Pickleball Tournament · Hosted by SRT 33',
    photos:[['pip_courts.jpg','Glass courts in full swing'],['pip_festival.jpg','Players, families & the whole 33 gang']],
    chips:['<b>₹1 Lakh</b> prize pot','Celebrity players','Family day · food & stalls','Season 2 — bigger & better']},
- {theme:'pink', secs:12, layout:'g3', kicker:'Pickle in Pink · The Payoff', burst:true,
+ {theme:'pink', secs:13, layout:'g4', kicker:'Pickle in Pink · The Payoff',
    title:'Champions, *Cheers* & a Cause',
    sub:'A packed day of pickleball raising funds & awareness for cancer care — game, set, seva.',
-   photos:[['pip_trophy.jpg','🏆 Champions crowned'],['pip_felicitation.jpg','Felicitating our winners'],
-           ['pip_dusk.jpg','The community turned out in force']]},
+   photos:[['pip_group.jpg','A full house on court'],['pip_trophy.jpg','🏆 Champions crowned'],
+           ['pip_felicitation.jpg','Felicitating our winners'],['pip_dusk.jpg','The community turned out in force']]},
  {theme:'emerald', secs:13, layout:'g4', kicker:'Play Hard',
    title:'Fellowships & the *Great Outdoors*',
    sub:'Nature walks, tournaments and paddle battles — friendship, one game at a time.',
@@ -228,6 +272,11 @@ const SLIDES=[
    sub:'Dandiya twirls, Diwali sparkle, Secret Santa at Babylon 2, and cheering India to victory.',
    photos:[['soc_dandiya.jpg','Dandiya Night'],['soc_diwali.jpg','Diwali celebrations'],
            ['soc_babylon.jpg','Secret Santa · Babylon 2'],['soc_indiapak.jpg','India vs Pakistan 🏏']]},
+ {theme:'ice', secs:13, layout:'g2', kicker:'The Boys’ Trip · Almaty, Kazakhstan',
+   title:'Off the Table, *Into the Mountains* 🏔️',
+   sub:'The 33 boys swapped courts for canyons — turquoise alpine lakes, mountain cafés and endless laughs in Kazakhstan.',
+   photos:[['alm_lake.jpg','Kolsai Lake — alpine blue'],['alm_boat.jpg','Pedal-boating the glacier lake'],
+           ['alm_cafe.jpg','“We all need mountains” ☕'],['alm_canyon.jpg','Charyn Canyon vistas']]},
  {theme:'rose', secs:11, layout:'couples', kicker:'Growing Together',
    title:'Welcoming New *33 Family*',
    sub:'The table grew stronger — two wonderful couples joined the SRT 33 family this year. 🍻',
@@ -237,10 +286,16 @@ const SLIDES=[
    stats:[['',19,'+','Fellowships & Socials'],['₹',50,'k+','Given in Community Service'],
           ['',700,'+','Lives Touched'],['',300,'','Kids at the Movies'],
           ['₹',1,' Lakh','Pickle in Pink Prize Pot'],['',2,'','New Couples Inducted']]},
- {theme:'sunset', secs:12, layout:'closing', id:'cl', burst:true, kicker:'Cheers to the Journey',
+ {theme:'sunset', secs:12, layout:'closing', id:'cl', kicker:'Cheers to the Journey',
    title:'Here’s to *SRT 33* 🥂',
    sub:'A beautiful journey of service, sport & friendship. 2025–26.',
    photo:'closing.jpg'},
+ {theme:'award', secs:8, layout:'awardtitle', kicker:'And now, the moment we’ve waited for',
+   title:'SRT 33 · TY 2025–26 *Awards*'},
+ {theme:'award', secs:9, layout:'award', icon:'🏆', award:'Best Floor Tabler', sub:'SRT 33 · TY 2025-26', winName:''},
+ {theme:'award', secs:9, layout:'award', icon:'🌟', award:'Best New Tabler', sub:'SRT 33 · TY 2025-26', winName:''},
+ {theme:'award', secs:9, layout:'award', icon:'💥', award:'Most Impactful', sub:'SRT 33 · TY 2025-26', winName:''},
+ {theme:'award', secs:9, layout:'award', icon:'💞', award:'Power Couple', sub:'SRT 33 · TY 2025-26', winName:''},
 ];
 /* theme -> accent + aurora colors */
 const THEMES={
@@ -256,6 +311,8 @@ const THEMES={
   rose:['#ff86b0','#7a2f4a','#8a4a6a','#2a1220'],
   gold:['#f4b41a','#6a4b12','#3b2d6e','#141026'],
   sunset:['#ffb05a','#7a1f5a','#b2451a','#2a1020'],
+  ice:['#43c4ef','#12466e','#1c7a8a','#0a2233'],
+  award:['#f4b41a','#4a3208','#6a4a0c','#0a0a12'],
 };
 
 /* ============ RENDER ============ */
@@ -270,6 +327,8 @@ const wrapWords=t=>{
   return html;
 };
 const tile=(src,cap)=>`<div class="ph"><img src="${A}${src}" alt=""><div class="cap">${cap}</div></div>`;
+const sparkles=()=>[['12%','20%','0s'],['86%','26%','.5s'],['20%','72%','1s'],['80%','68%','1.4s'],['50%','12%','.8s'],['64%','80%','1.7s']]
+  .map(([l,t,d])=>`<span class="spark" style="left:${l};top:${t};animation-delay:${d}">✦</span>`).join('');
 
 function build(s,idx){
   const sec=document.createElement('section');
@@ -316,6 +375,18 @@ function build(s,idx){
           <div class="placeholder" id="anukulPh"><div class="ph-ico">🖼️</div><div class="ph-t">Anukul & Jagrati</div>
           <div class="ph-s">photo coming soon — drop it at<br><code>assets/induct_anukul.jpg</code></div></div>
           <div class="cap" id="anukulCap" style="display:none">${s.couples[1][1]}</div></div></div></div>`;
+  } else if(s.layout==='awardtitle'){
+    inner=`<div class="wrap award-title-wrap"><div class="spotlight"></div>${sparkles()}
+      <div class="award-icon" style="font-size:6vw">🏆</div>
+      <div class="award-kick">${s.kicker}</div>
+      <h2 class="awards-big">${wrapWords(s.title)}</h2></div>`;
+  } else if(s.layout==='award'){
+    inner=`<div class="wrap award-wrap"><div class="spotlight"></div>${sparkles()}
+      <div class="award-icon">${s.icon}</div>
+      <div class="award-label">The Award For</div>
+      <div class="award-name">${s.award}</div>
+      <div class="award-sub">${s.sub}</div>
+      <div class="nameplate"><span class="ph-note">${s.winName?('<span class=\"who\">'+s.winName+'</span>'):'🏅 Winner reveal — coming soon'}</span></div></div>`;
   } else { /* g2/g3/g4 grids */
     const cols=s.layout==='g2'?'g2':s.layout==='g3'?'g3':'g4';
     inner=`<div class="wrap">${head(s.kicker,s.title,s.sub)}
@@ -382,7 +453,7 @@ function show(n){
 function go(d){ stop(); show(i+d); }
 function tick(){ clearTimeout(timer); timer=setTimeout(()=>{ if(i===N-1){stop();return;} show(i+1); }, dur(i)*1000); }
 function play(){ playing=true; document.getElementById('playBtn').textContent='❚❚ Pause';
-  document.getElementById('hint').style.display='none'; progress(); tick(); }
+  document.getElementById('hint').style.display='none'; playMusic(); progress(); tick(); }
 function stop(){ playing=false; clearTimeout(timer); document.getElementById('playBtn').textContent='▶ Play'; progress(); }
 function togglePlay(){ playing?stop():(i===N-1&&(resetTo(0)),play()); }
 function resetTo(n){ slides[i].classList.remove('active'); i=n; activate(); }
@@ -446,6 +517,15 @@ addEventListener('keydown',e=>{
 });
 deck.addEventListener('click',e=>{ if(e.target.closest('#ui'))return;
   const r=deck.getBoundingClientRect(); go(e.clientX<r.left+r.width/2?-1:1); });
+
+/* ============ background music ============ */
+const bgm=document.getElementById('bgm'); bgm.volume=0.55; let muted=false;
+const mbtn=document.getElementById('mbtn');
+function playMusic(){ if(!muted) bgm.play().catch(()=>{}); }
+function toggleMusic(){
+  if(bgm.paused){ muted=false; bgm.play().catch(()=>{}); mbtn.textContent='🔊 Music'; }
+  else { muted=true; bgm.pause(); mbtn.textContent='🔇 Muted'; }
+}
 
 /* init */
 activate();
