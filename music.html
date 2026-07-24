@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Journey 33 — Pick the Soundtrack</title>
+<style>
+  :root{--navy:#0a1230;--card:#12204a;--gold:#f4b41a;--pink:#ff4f8b;--cream:#fdf6e9;--muted:#aeb8da}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:radial-gradient(120% 100% at 80% -10%,#1a2c66,#0a1230 60%);color:var(--cream);
+    font-family:"Poppins","Segoe UI",system-ui,sans-serif;min-height:100vh;padding:5vw 6vw 8vw}
+  header{max-width:900px;margin:0 auto 2.4rem}
+  .eyebrow{letter-spacing:.4em;text-transform:uppercase;color:var(--gold);font-size:.8rem;font-weight:600}
+  h1{font-size:2.4rem;font-weight:800;margin:.5rem 0;line-height:1.05}
+  h1 em{font-style:normal;color:var(--gold)}
+  p.lead{color:var(--muted);font-size:1.05rem;max-width:60ch;line-height:1.6}
+  .list{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:.9rem}
+  .row{background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+    border:1px solid rgba(244,180,26,.22);border-radius:16px;padding:1rem 1.2rem;
+    display:grid;grid-template-columns:2.2rem 1fr;gap:.4rem 1rem;align-items:center}
+  .num{font-size:1.3rem;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+  .meta{display:flex;flex-direction:column;gap:.15rem}
+  .name{font-size:1.15rem;font-weight:700}
+  .name .tag{font-weight:500;color:var(--muted);font-size:.9rem;margin-left:.5rem}
+  audio{grid-column:1/-1;width:100%;margin-top:.6rem;filter:saturate(1.1)}
+  .hint{max-width:900px;margin:2rem auto 0;color:var(--muted);font-size:.95rem;
+    background:rgba(255,79,139,.1);border:1px solid rgba(255,79,139,.3);border-radius:14px;padding:1rem 1.2rem}
+  .hint b{color:var(--pink)}
+  footer{max-width:900px;margin:2.5rem auto 0;color:#7f8db5;font-size:.8rem;line-height:1.6}
+  a{color:var(--gold)}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Journey 33 · SRT 33</div>
+  <h1>Pick the <em>soundtrack</em> 🎧</h1>
+  <p class="lead">Have a listen to each option below — all upbeat, presentation-friendly instrumentals (not full-on dance music). Tell me the number or name of the one you like and I'll set it as the deck's background music.</p>
+</header>
+
+<div class="list" id="list"></div>
+
+<div class="hint">👉 When you've chosen, just say e.g. <b>“use #4”</b> or <b>“use Digital Lemonade”</b> and I'll wire it in and push.</div>
+
+<footer>
+  All tracks by <b>Kevin MacLeod</b> (incompetech.com), licensed <b>CC BY 4.0</b>. Attribution will be included wherever the deck is shared.
+</footer>
+
+<script>
+  const TRACKS=[
+    ['voltaic','Voltaic','driving, energetic electronic'],
+    ['getting-it-done','Getting It Done','motivational, corporate-electronic'],
+    ['wallpaper','Wallpaper','warm, upbeat electronic-pop'],
+    ['digital-lemonade','Digital Lemonade','chill, breezy electronic'],
+    ['blippy-trance','Blippy Trance','light, bouncy electronic'],
+    ['the-complex','The Complex','sleek, techy underscore'],
+    ['electrodoodle','Electrodoodle','quirky, feel-good electronic'],
+    ['pixelland','Pixelland','playful, bright electronic'],
+    ['itty-bitty-8-bit','Itty Bitty 8-Bit','retro arcade, upbeat'],
+    ['life-of-riley','Life of Riley','sunny, upbeat indie'],
+    ['beach-party','Beach Party','fun, summery groove'],
+    ['happy-alley','Happy Alley','cheerful, light swing'],
+    ['feelin-good','Feelin’ Good','relaxed, positive groove'],
+    ['deep-haze','Deep Haze','dreamy, atmospheric (calmer)'],
+  ];
+  const list=document.getElementById('list');
+  TRACKS.forEach(([slug,name,tag],i)=>{
+    const row=document.createElement('div'); row.className='row';
+    row.innerHTML=`<div class="num">${String(i+1).padStart(2,'0')}</div>
+      <div class="meta"><div class="name">${name}<span class="tag">· ${tag}</span></div></div>
+      <audio controls preload="none" src="assets/music-options/${slug}.mp3"></audio>`;
+    list.appendChild(row);
+  });
+</script>
+</body>
+</html>
